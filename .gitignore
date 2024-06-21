@@ -1,0 +1,9 @@
+.env
+inventory.ini
+ans-commands-examples
+playbook.yml
+script.sh
+staticfiles
+.vscode
+dist
+__pycache__
