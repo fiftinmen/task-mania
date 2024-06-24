@@ -28,12 +28,13 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 DATABASE_URL = os.environ['DATABASE_URL']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'webserver',
+    'python-project-52-6vxn.onrender.com'
 ]
 
 # Application definition
