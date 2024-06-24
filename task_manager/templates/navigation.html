@@ -1,0 +1,47 @@
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% load static %}
+{% load tags %}
+<div class="container mt-4 bg-light">
+    <div class="row">
+        <div class="col-10">
+            <nav class="navbar navbar-expand">
+                <div>
+                    <ul class="nav navbar">
+                        <li class="nav-item navbar-brand active">
+                            <a class="nav-link" href="{% url 'index' %}">{% trans 'SiteTitle'%}</a>
+                        </li>
+                        <li class="nav-item" >
+                            <a class="nav-link" href="{% url 'users_index' %}">{% trans 'Users'%}</a>
+                        </li>
+                        <li class="nav-item" >
+                            <a class="nav-link" href="{% url 'login' %}">{% trans 'Login'%}</a>
+                        </li>
+                        <li class="nav-item" >
+                            <a class="nav-link" href="{% url 'users_create' %}">{% trans 'Registration'%}</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% if languages|length > 1 %}
+        {% get_language_info for LANGUAGE_CODE as current_language%}
+            <div class="col-2 mr-0 align-self-center">
+                <div class="dropdown text-end">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ current_language.name_local }}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        
+                        {% for language in languages %}
+                            <a class="dropdown-item" href="{% change_lang language.code %}">{{ language.name_local }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,4 +1,43 @@
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
 {% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        {% block title %}
+        <title>{% translate 'SiteTitle' %}</title>
+        {% endblock %}
+        <meta name="description" content="{% translate 'SiteDescription'%}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% bootstrap_javascript %}
+        {% bootstrap_css %}
+    </head>
+    <body>
+        <header>
+            {% include 'navigation.html' %}
+        </header>
+        <main>
+            <div class="container wrapper flex-grow-1">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+        <footer>
+            {% block footer %}
+                <div class="container mt-5 pb-0 border-top bg-light"">
+                    <div class="navbar navbar-expand">
+                        <ul class="nav navbar">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'index'%}">{% translate 'SiteTitle'%}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endblock %}
+        </footer>
+    </body>
+</html>
