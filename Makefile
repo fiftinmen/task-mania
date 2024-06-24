@@ -3,7 +3,7 @@ MANAGE := poetry run python manage.py
 PORT ?= 8000
 .PHONY: start
 start:
-	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) wsgi.application
+	poetry run gunicorn task_manager.wsgi
 
 
 .PHONY: build
