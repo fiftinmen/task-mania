@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-primary">
+        <tr>
+            <th>{% trans "id" %}</th>
+            <th>{% trans "Username" %}</th>
+            <th>{% trans "Email" %}</th>
+            <th>{% trans "Project" %}</th>
+            <th>{% trans "Task" %}</th>
+        </tr>
+        {% for user in object_list %}
+            <tr>
+                <td>
+                    {{ user.pk }}<br>
+                </td>
+                <td>
+                    {{ user.username }}<br>
+                </td>
+                <td>
+                    {{ user.email }}<br>
+                </td>
+                <td>
+                    {{ user.project }}<br>
+                </td>
+                <td>
+                    {{ user.task }}<br>
+                </td>
+            </tr>
+        {% endfor %}
+    
+    </table>
+    {% if page_obj %}
+        {% include "pagination.html" %}
+    {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

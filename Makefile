@@ -19,12 +19,6 @@ dev:
 test:
 	@poetry run pytest
 
-
-.PHONY: test
-test:
-	@poetry run pytest
-
-
 .PHONY: setup
 setup: db-clean install migrate
 

@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["fiftinmen <fiftin.men@gmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "task_manager" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -14,13 +17,14 @@ django-bootstrap5 = "^24.2"
 whitenoise = "^6.7.0"
 psycopg2-binary = "^2.9.9"
 gunicorn = "^22.0.0"
+django-extensions = "^3.2.1"
+django-shell-plus = "^1.1.7"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
 flake8 = "^7.1.0"
 django-admin = "^2.0.2"
 pytest-django = "^4.5.2"
-django-extensions = "^3.2.1"
 ipython = "^8.5.0"
 
 [build-system]
