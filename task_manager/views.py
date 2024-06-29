@@ -10,6 +10,9 @@ def index(request):
     return render(request, "index.html")
 
 
+h
+
+
 class UsersIndexView(ListView):
     model = User
     pagination = 50
