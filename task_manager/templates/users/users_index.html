@@ -7,7 +7,7 @@
 {% block content %}
 <div class="table-responsive">
     <table class="table table-primary">
-        <tr>
+        <tr class="border bottom">
             <th>{% trans "id" %}</th>
             <th>{% trans "Username" %}</th>
             <th>{% trans "Email" %}</th>
@@ -15,18 +15,18 @@
             <th>{% trans "Task" %}</th>
         </tr>
         {% for user in object_list %}
-            <tr>
+            <tr class="border bottom">
                 <td>
-                    {{ user.pk }}<br>
+                    {{ user.pk }}
                 </td>
                 <td>
-                    {{ user.username }}<br>
+                    <a class="link" href="{% url 'users_detail' pk=user.pk %}">{{ user.username }}</a>
                 </td>
                 <td>
-                    {{ user.email }}<br>
+                    {{ user.email }}
                 </td>
                 <td>
-                    {{ user.project }}<br>
+                    {{ user.project }}
                 </td>
                 <td>
                     {{ user.task }}<br>

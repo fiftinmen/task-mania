@@ -5,6 +5,14 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
+<div class="container-md">
+    <div class="row justify-content-center align-items-center g-2">
+        <div class="col">{{ object.username }}</div>
+        <div class="col">{{ object.email }}</div>
+        <div class="col">{{ object.project }}</div>
+        <div class="col">{{ object.task }}</div>
+    </div>  
+</div>
 
 
 

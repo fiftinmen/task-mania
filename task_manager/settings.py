@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "shell_plus",
     "django_bootstrap5",
     "task_manager",
+    "task_manager.users",
 ]
 
 MIDDLEWARE = [
