@@ -15,12 +15,31 @@
                         <li class="nav-item" >
                             <a class="nav-link" href="{% url 'users_index' %}">{% trans 'Users'%}</a>
                         </li>
+                        {% if request.user.is_authenticated %}
                         <li class="nav-item" >
-                            <a class="nav-link" href="{% url 'login' %}">{% trans 'Login'%}</a>
+                            <a class="nav-link" href="{% url 'users_index' %}">{% trans 'Statuses'%}</a>
+                        </li>
+                        <li class="nav-item" >
+                            <a class="nav-link" href="{% url 'users_index' %}">{% trans 'Tags'%}</a>
+                        </li>
+                        <li class="nav-item" >
+                            <a class="nav-link" href="{% url 'users_index' %}">{% trans 'Tasks'%}</a>
+                        </li>
+                        
+                        <li class="nav-item" >
+                            <form action="{% url 'users_logout' %}" method="post">
+                            {% csrf_token %}
+                             <input class="btn nav-link" type="submit" value="{% trans 'Logout' %}">
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class="nav-item" >
+                            <a class="nav-link" href="{% url 'users_login' %}">{% trans 'Login'%}</a>
                         </li>
                         <li class="nav-item" >
                             <a class="nav-link" href="{% url 'users_create' %}">{% trans 'Registration'%}</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>

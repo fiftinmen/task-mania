@@ -1,27 +1,94 @@
-from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from django.contrib.messages import info
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
+from django.contrib.auth import get_user_model
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.list import ListView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
+from . import forms
 
 
 class UsersIndexView(ListView):
-    model = User
+    model = get_user_model()
     pagination = 50
-    template_name = "users/users_index.html"
+    template_name = "users/index.html"
 
 
 class UsersDetailView(DetailView):
-    model = User
-    template_name = "users/users_detail.html"
+    model = get_user_model()
+    template_name = "users/detail.html"
 
 
-def users_index(request):
-    return render(request, "index.html")
+class UsersProfileView(UsersDetailView):
+
+    def get_object(self, queryset=None):
+        if self.request.user.is_authenticated:
+            return self.request.user
+        return redirect("index")
 
 
-def login(request):
-    return render(request, "index.html")
+class UsersLoginView(SuccessMessageMixin, LoginView):
+    model = get_user_model()
+    template_name = "users/login.html"
+    next_page = success_url = reverse_lazy("index")
+    success_message = _("Logged_in")
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("index")
+        return super().get(request, *args, **kwargs)
 
 
-def users_create(request):
-    return render(request, "index.html")
+class UsersCreateView(SuccessMessageMixin, CreateView):
+    form_class = forms.UsersRegisterForm
+    template_name = "users/create.html"
+    next_page = success_url = reverse_lazy("index")
+    success_message = _("Registration_success")
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("index")
+        return super().get(request, *args, **kwargs)
+
+
+class UsersUpdateView(SuccessMessageMixin, UpdateView):
+    model = get_user_model()
+    form_class = forms.UsersUpdateForm
+    template_name = "users/update.html"
+    next_page = success_url = reverse_lazy("index")
+    success_message = _("Update_success")
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or request.user.pk != kwargs["pk"]:
+            return redirect("index")
+        return super().get(request, *args, **kwargs)
+
+
+class UsersDeleteView(SuccessMessageMixin, DeleteView):
+    model = get_user_model()
+    template_name = "users/delete.html"
+    next_page = success_url = reverse_lazy("index")
+    success_message = _("Deletion_success")
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or request.user.pk != kwargs["pk"]:
+            return redirect("index")
+        return super().get(request, *args, **kwargs)
+
+
+class UsersLogoutView(LogoutView):
+    next_page = success_url = reverse_lazy("index")
+    template_name = "index.html"
+
+
+o = [
+    "Вы разлогинены",
+    "Пользователь успешно зарегистрирован",
+    "Вы залогинены",
+    "У вас нет прав для изменения другого пользователя.",
+    "Пользователь успешно изменен",
+    "Вы не авторизованы! Пожалуйста, выполните вход.",
+]

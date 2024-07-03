@@ -21,7 +21,6 @@ from django.urls import path, include
 from task_manager import views
 
 urlpatterns = i18n_patterns(
-    path("admin/", admin.site.urls),
     path("", views.index, name="index"),
     path("users/", include("task_manager.users.urls")),
 )

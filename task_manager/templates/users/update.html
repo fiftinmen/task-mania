@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+<div class="container">
+    <form action="{% url "users_update" pk=object.pk %}" method="post">
+        {% csrf_token %}
+        {{ pk }}
+        <div class="mb-3 row">
+            {{ form.as_p }}
+        </div>
+        <div class="mb-3 row">
+            <div class="offset-sm-4 col-sm-8">
+                <button type="submit" class="btn btn-primary">
+                    {% trans "Change" %}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

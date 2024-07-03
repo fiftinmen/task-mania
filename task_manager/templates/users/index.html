@@ -10,9 +10,9 @@
         <tr class="border bottom">
             <th>{% trans "id" %}</th>
             <th>{% trans "Username" %}</th>
-            <th>{% trans "Email" %}</th>
-            <th>{% trans "Project" %}</th>
-            <th>{% trans "Task" %}</th>
+            <th>{% trans "Fullname" %}</th>
+            <th>{% trans "Registration" %}</th>
+            <th>{% trans "Action" %}</th>
         </tr>
         {% for user in object_list %}
             <tr class="border bottom">
@@ -20,16 +20,17 @@
                     {{ user.pk }}
                 </td>
                 <td>
-                    <a class="link" href="{% url 'users_detail' pk=user.pk %}">{{ user.username }}</a>
+                  {{ user.username }}
                 </td>
                 <td>
-                    {{ user.email }}
+                    {{ user.first_name }} {{user.last_name}}
                 </td>
                 <td>
-                    {{ user.project }}
+                    {{ user.date_joined }}
                 </td>
                 <td>
-                    {{ user.task }}<br>
+                <div><a href="{% url 'users_update' pk=user.id %}">Изменить</a></div>
+                <div><a href="{% url 'users_delete' pk=user.id %}">Удалить</a></div>
                 </td>
             </tr>
         {% endfor %}
