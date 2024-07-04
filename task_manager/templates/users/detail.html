@@ -8,9 +8,12 @@
 <div class="container-md">
     <div class="row justify-content-center align-items-center g-2">
         <div class="col">{{ object.username }}</div>
+        <div class="col">{{ object.first_name }}</div>
+        <div class="col">{{ object.last_name }}</div>
         <div class="col">{{ object.email }}</div>
         <div class="col">{{ object.project }}</div>
         <div class="col">{{ object.task }}</div>
+        <div class="col">{{ object.date_joined }}</div>
     </div>  
 </div>
 {% endblock content %}

@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 from . import views
 
@@ -25,11 +26,15 @@ urlpatterns = [
     path("create/", views.UsersCreateView.as_view(), name="users_create"),
     path("login/", views.UsersLoginView.as_view(), name="users_login"),
     path("logout/", views.UsersLogoutView.as_view(), name="users_logout"),
-    path("profile/", views.UsersProfileView.as_view(), name="users_profile"),
+    path("profile/", views.UsersDetailView.as_view(), name="users_profile"),
     path(
-        "delete/<int:pk>/", views.UsersDeleteView.as_view(), name="users_delete"
+        "delete/<int:pk>/",
+        login_required(views.UsersDeleteView.as_view()),
+        name="users_delete",
     ),
     path(
-        "update/<int:pk>/", views.UsersUpdateView.as_view(), name="users_update"
+        "update/<int:pk>/",
+        login_required(views.UsersUpdateView.as_view()),
+        name="users_update",
     ),
 ]

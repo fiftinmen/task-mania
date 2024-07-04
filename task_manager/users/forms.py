@@ -22,14 +22,14 @@ class UsersAccountForm(ModelForm):
 
 class UsersRegisterForm(UserCreationForm):
     class Meta(UserCreationForm.Meta, UsersAccountForm.Meta):
-        pass
+        model = get_user_model()
 
 
 class UsersUpdateForm(UserChangeForm):
     password = None
 
     class Meta(UsersAccountForm.Meta):
-        pass
+        model = get_user_model()
 
     error_messages = {
         "password_mismatch": _("The two password fields didn’t match."),

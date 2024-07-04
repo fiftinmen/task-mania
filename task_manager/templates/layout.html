@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load static %}
 {% get_current_language as LANGUAGE_CODE %}
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,23 +20,22 @@
             {% include 'navigation.html' %}
         </header>
         <main>
-            <div class="container wrapper flex-grow-1">
-                {% block content %}
-                {% endblock %}
+            <div class="container wrapper d-flex flex-column mt-5">
+                {% if messages %}
+                    <div class="row">
+                        {% for message in messages %}
+                        <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% else %} class="alert alert-primary"{% endif %} role="alert">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="row flex-grow-1">
+                    {% block content %}
+                    {% endblock %}
+                </div>
             </div>
         </main>
         <footer>
-            {% block footer %}
-                <div class="container mt-5 pb-0 border-top bg-light"">
-                    <div class="navbar navbar-expand">
-                        <ul class="nav navbar">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'index'%}">{% translate 'SiteTitle'%}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            {% endblock %}
+            {% include 'footer.html'%}
         </footer>
     </body>
 </html>

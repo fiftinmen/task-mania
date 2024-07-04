@@ -1,0 +1,34 @@
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+{% load tags %}
+<div class="container mt-5 mb-0 pb-0 border-top bg-light">
+    <div class="row">
+        <div class="navbar navbar-expand col-10">
+            <ul class="nav navbar">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index'%}">{% translate 'SiteTitle'%}</a>
+                </li>
+            </ul>
+        </div>
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% if languages|length > 1 %}
+        {% get_language_info for LANGUAGE_CODE as current_language%}
+            <div class="col-2 mr-0 align-self-center">
+                <div class="dropdown text-end">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ current_language.name_local }}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        
+                        {% for language in languages %}
+                            <a class="dropdown-item" href="{% change_lang language.code %}">{{ language.name_local }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

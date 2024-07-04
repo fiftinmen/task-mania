@@ -14,7 +14,13 @@ import os
 import dj_database_url
 from dotenv import load_dotenv
 from pathlib import Path
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,6 +57,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "task_manager",
     "task_manager.users",
+    "django.contrib.admin",
 ]
 
 MIDDLEWARE = [
@@ -125,6 +132,8 @@ else:
     },
 ] """
 
+AUTH_USER_MODEL = "users.CustomUser"
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -159,6 +168,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+LOGIN_REDIRECT_URL = reverse_lazy("index")
+LOGIN_URL = reverse_lazy("users_login")
+LOGOUT_REDIRECT_URL = reverse_lazy("index")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

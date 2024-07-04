@@ -17,7 +17,7 @@ dev:
 
 .PHONY: test
 test:
-	@poetry run pytest
+	@poetry run python manage.py test
 
 .PHONY: setup
 setup: db-clean install migrate
@@ -31,7 +31,7 @@ db-clean:
 	@rm db.sqlite3 || true
 
 .PHONY: make-n-migrate
-makemigrations_and_migrate:
+ make-n-migrate:
 	@$(MANAGE) makemigrations
 	@$(MANAGE) migrate
 
