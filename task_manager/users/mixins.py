@@ -8,7 +8,7 @@ from django.shortcuts import resolve_url
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
-class UserPermissionRequiredMixin(PermissionRequiredMixin):
+class UsersPermissionRequiredMixin(PermissionRequiredMixin):
 
     authentication_required_message = _("authorization_required")
     permission_denied_message = ""

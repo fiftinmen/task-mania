@@ -17,12 +17,19 @@ class UsersAccountForm(ModelForm):
             "last_name",
             "username",
         ]
-        field_classes = {"email": forms.EmailField}
 
 
 class UsersRegisterForm(UserCreationForm):
+    first_name = forms.CharField(max_length=150, required=True)
+    last_name = forms.CharField(max_length=150, required=True)
+
     class Meta(UserCreationForm.Meta, UsersAccountForm.Meta):
         model = get_user_model()
+        fields = [
+            "first_name",
+            "last_name",
+            "username",
+        ]
 
 
 class UsersUpdateForm(UserChangeForm):

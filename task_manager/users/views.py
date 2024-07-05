@@ -64,8 +64,6 @@ class UsersCreateView(SuccessMessageMixin, CreateView):
                 Permission.objects.get(codename="self_update"),
                 Permission.objects.get(codename="self_delete"),
             )
-        print(users_group.name)
-        print("aaaa")
         response = super().form_valid(form)
         self.object.groups.set([users_group])
         self.object.save()
@@ -73,7 +71,7 @@ class UsersCreateView(SuccessMessageMixin, CreateView):
 
 
 class UsersUpdateView(
-    mixins.UserPermissionRequiredMixin, SuccessMessageMixin, UpdateView
+    mixins.UsersPermissionRequiredMixin, SuccessMessageMixin, UpdateView
 ):
     permission_required = "users.self_update"
     permission_denied_message = _("Not_permitted_to_update_other_users")
@@ -91,7 +89,7 @@ class UsersUpdateView(
 
 
 class UsersDeleteView(
-    mixins.UserPermissionRequiredMixin, SuccessMessageMixin, DeleteView
+    mixins.UsersPermissionRequiredMixin, SuccessMessageMixin, DeleteView
 ):
     permission_required = "users.self_delete"
     permission_denied_message = _("Not_permitted_to_delete_other_users")

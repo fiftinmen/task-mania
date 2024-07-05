@@ -1,97 +1,109 @@
 from ..models import CustomUser
 
-VALID_USERNAMES = (
-    "Alex",
-    "Trentor",
-    "Gaya",
-    "Bliss",
-    "GarrySeldon",
-    "Academy",
-    "Foundation",
-    "1",
+valid_users = (
+    {
+        "id": 1,
+        "username": "Alex",
+        "password1": "123",
+        "password2": "123",
+        "first_name": "Alex",
+        "last_name": "Andreas",
+    },
+    {
+        "id": 2,
+        "username": "HarryPotter",
+        "password1": "3312",
+        "password2": "3312",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
+    {
+        "id": 3,
+        "username": "Max1",
+        "password1": "mmaxxx2_1",
+        "password2": "mmaxxx2_1",
+        "first_name": "Max",
+        "last_name": "Smart",
+    },
 )
-INVALID_USERNAMES = (
-    "",
-    "!drakula",
-    ";somebody",
-    "()",
-    "*()!1" "Ya_ne^",
-    """1111111111111111111111111111111111111111111111111111111111111111111
-    1111111111111111111111111111111111111111111111111111111111111111111111
-    111111111111111111111111111111111111111111111111111111111111111111""",
+invalid_users = (
+    {
+        "id": 1,
+        "username": "!drakula",
+        "password1": "333",
+        "password2": "333",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
+    {
+        "id": 2,
+        "username": """111111111111111111111111111111111111111111111111111
+        111111111111111111111111111111111111111111111111111111111111111111
+        111111111111111111111111111111111111111111111111111111111111111111
+        11111111111111111111111111111111111111111111111111111111111111""",
+        "password1": "333",
+        "password2": "333",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
+    {
+        "id": 3,
+        "username": "",
+        "password1": "333",
+        "password2": "333",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
+    {
+        "id": 4,
+        "username": "aaa",
+        "password1": "33",
+        "password2": "33",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
+    {
+        "id": 5,
+        "username": "aaa",
+        "password1": "33",
+        "password2": "333",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
+    {
+        "id": 6,
+        "username": "aaa",
+        "password1": "333",
+        "password2": "33",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
+    {
+        "id": 7,
+        "username": "aaa",
+        "password1": "333",
+        "password2": "3333",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
+    {
+        "id": 8,
+        "username": "aaa",
+        "password1": "3333",
+        "password2": "333",
+        "first_name": "Harry",
+        "last_name": "Potter",
+    },
 )
-FIRST_NAMES = (
-    "Alex",
-    "Garry",
-    "Harry",
-    "Hermiona",
-    "Ronald",
-    "Donny",
-    "Donald",
-    "Sauron",
-    "Saruman",
-)
-LAST_NAMES = (
-    "Andreas",
-    "Seldon",
-    "Cooper",
-    "Strange",
-    "Potter",
-    "Darko",
-    "Duck",
-    "Mayar",
-    "White",
-)
-VALID_PASSWORDS = (
-    "123",
-    "231",
-    "321",
-    "333",
-    "345",
-    "355",
-    "3566",
-    "haHa",
-    "SoManyLetters",
-)
-INVALID_PASSWORDS = ("1", "2", "aaa", "", "zz")
 
 
-def user_factory(
-    usernames=[], first_names=[], last_names=[], passwords1=[], passwords2=[]
-):
-    data = [
-        usernames,
-        first_names,
-        last_names,
-        passwords1,
-        passwords2 if passwords2 else passwords1,
-    ]
-    length = min(map(len, data))
-    users = []
-    for i in range(length):
-        user, created = CustomUser.objects.get_or_create(
-            username=data[0][i],
-            first_name=data[1][i],
-            last_name=data[2][i],
-            password=data[3][i],
+def make_user(user_data):
+    if not isinstance(user_data, AnonymousUser):
+        user = CustomUser.objects.get_or_create(
+            username=user_data["username"],
+            first_name=user_data["first_name"],
+            last_name=user_data["last_name"],
+            password=user_data["password1"],
         )
-        users.append(user)
-    return users
-
-
-def valid_user_factory():
-    return user_factory(
-        usernames=VALID_USERNAMES,
-        first_names=FIRST_NAMES,
-        last_names=LAST_NAMES,
-        passwords1=VALID_PASSWORDS,
-    )
-
-
-def invalid_user_factory():
-    return user_factory(
-        usernames=INVALID_USERNAMES,
-        first_names=FIRST_NAMES,
-        last_names=LAST_NAMES,
-        passwords1=INVALID_PASSWORDS,
-    )
+        return user
+    return user_data
