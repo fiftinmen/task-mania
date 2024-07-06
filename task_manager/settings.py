@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     "task_manager",
     "task_manager.users",
     "django.contrib.admin",
+    "task_manager.tasks",
+    "task_manager.statuses",
 ]
 
 MIDDLEWARE = [

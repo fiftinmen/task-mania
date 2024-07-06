@@ -1,5 +1,3 @@
-from ..models import CustomUser
-
 valid_users = (
     {
         "id": 1,
@@ -26,6 +24,11 @@ valid_users = (
         "last_name": "Smart",
     },
 )
+
+# extend list of valid users to use it with invalid_users in some tests
+extended_valid_users = valid_users * 4
+
+
 invalid_users = (
     {
         "id": 1,
@@ -94,16 +97,28 @@ invalid_users = (
         "first_name": "Harry",
         "last_name": "Potter",
     },
+    {
+        "id": 9,
+        "username": "aaa",
+        "password1": "3333",
+        "password2": "333",
+        "first_name": "Harry",
+        "last_name": "",
+    },
+    {
+        "id": 10,
+        "username": "aaa",
+        "password1": "3333",
+        "password2": "333",
+        "first_name": "",
+        "last_name": "Potter",
+    },
+    {
+        "id": 11,
+        "username": "aaa",
+        "password1": "3333",
+        "password2": "333",
+        "first_name": "",
+        "last_name": "",
+    },
 )
-
-
-def make_user(user_data):
-    if not isinstance(user_data, AnonymousUser):
-        user = CustomUser.objects.get_or_create(
-            username=user_data["username"],
-            first_name=user_data["first_name"],
-            last_name=user_data["last_name"],
-            password=user_data["password1"],
-        )
-        return user
-    return user_data
