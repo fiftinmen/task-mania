@@ -7,4 +7,4 @@ staticfiles
 .vscode
 dist
 __pycache__
-.graph_models.html
+graph_models.html
