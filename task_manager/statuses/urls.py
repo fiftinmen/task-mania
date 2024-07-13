@@ -20,20 +20,16 @@ from . import views
 
 
 urlpatterns = [
-    path("", views.UsersIndexView.as_view(), name="users_index"),
-    path("<int:pk>/", views.UsersDetailView.as_view(), name="users_detail"),
-    path("create/", views.UsersCreateView.as_view(), name="users_create"),
-    path("login/", views.UsersLoginView.as_view(), name="users_login"),
-    path("logout/", views.UsersLogoutView.as_view(), name="users_logout"),
-    path("profile/", views.UsersDetailView.as_view(), name="users_profile"),
+    path("", views.StatusesIndexView.as_view(), name="statuses_index"),
+    path("create/", views.StatusesCreateView.as_view(), name="statuses_create"),
     path(
         "delete/<int:pk>/",
-        views.UsersDeleteView.as_view(),
-        name="users_delete",
+        views.StatusesDeleteView.as_view(),
+        name="statuses_delete",
     ),
     path(
         "update/<int:pk>/",
-        views.UsersUpdateView.as_view(),
-        name="users_update",
+        views.StatusesUpdateView.as_view(),
+        name="statuses_update",
     ),
 ]

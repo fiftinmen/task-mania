@@ -5,41 +5,41 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
+<h1 class="my-4">
+{% trans 'Statuses' %}
+</h1>
+<a class="btn btn-primary mb-3" href={% url 'statuses_create'%}>
+                    {% trans "Create" %}
+</a>
 <div class="table-responsive">
     <table class="table table-primary">
         <tr class="border bottom">
-            <th>{% trans "id" %}</th>
-            <th>{% trans "Username" %}</th>
-            <th>{% trans "Fullname" %}</th>
-            <th>{% trans "Date of registration" %}</th>
+            <th>{% trans "ID" %}</th>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Date of creation" %}</th>
             <th>{% trans "Actions" %}</th>
         </tr>
-        {% for user in object_list %}
+        {% for status in object_list %}
             <tr class="border bottom">
                 <td>
-                    {{ user.pk }}
+                    {{ status.pk }}
                 </td>
                 <td>
-                  {{ user.username }}
+                  {{ status.name }}
                 </td>
                 <td>
-                    {{ user.get_full_name }}
+                    {{ status.created_at }}
                 </td>
                 <td>
-                    {{ user.date_joined }}
-                </td>
-                <td>
-                <div><a href="{% url 'users_update' pk=user.id %}">Изменить</a></div>
-                <div><a href="{% url 'users_delete' pk=user.id %}">Удалить</a></div>
+                <div><a href="{% url 'statuses_update' pk=status.id %}">Изменить</a></div>
+                <div><a href="{% url 'statuses_delete' pk=status.id %}">Удалить</a></div>
                 </td>
             </tr>
         {% endfor %}
-    
     </table>
     {% if page_obj %}
         {% include "pagination.html" %}
     {% endif %}
     </div>
-</div>
 
 {% endblock content %}

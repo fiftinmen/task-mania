@@ -8,13 +8,17 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.list import ListView
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
-from . import forms, mixins
 from django.contrib.auth.models import Group, Permission
+from . import forms
+from task_manager.mixins import (
+    UsersModifyPermissionMixin,
+    CustomLoginRequiredMixin,
+)
 
 
 class UsersIndexView(ListView):
     model = get_user_model()
-    pagination = 5
+    pagination = 10
     template_name = "users/index.html"
 
 
@@ -47,11 +51,11 @@ class UsersCreateView(SuccessMessageMixin, CreateView):
     next_page = success_url = reverse_lazy("index")
     success_message = _("Registration_success")
 
-    def get(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             error(request, _("Not_enough_permissions"))
             return redirect("index")
-        return super().get(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.object = None
@@ -71,41 +75,25 @@ class UsersCreateView(SuccessMessageMixin, CreateView):
 
 
 class UsersUpdateView(
-    mixins.UsersPermissionRequiredMixin, SuccessMessageMixin, UpdateView
+    UsersModifyPermissionMixin, SuccessMessageMixin, UpdateView
 ):
-    permission_required = "users.self_update"
-    permission_denied_message = _("Not_permitted_to_update_other_users")
     model = get_user_model()
     form_class = forms.UsersUpdateForm
     template_name = "users/update.html"
     next_page = success_url = reverse_lazy("users_index")
-    success_message = _("Update_success")
-
-    def get(self, request, *args, **kwargs):
-        if request.user.pk != kwargs["pk"]:
-            error(request, _("No_permissions_to_change_other_user"))
-            return redirect("index")
-        return super().get(request, *args, **kwargs)
+    success_message = _("User_update_success")
 
 
 class UsersDeleteView(
-    mixins.UsersPermissionRequiredMixin, SuccessMessageMixin, DeleteView
+    UsersModifyPermissionMixin, SuccessMessageMixin, DeleteView
 ):
-    permission_required = "users.self_delete"
-    permission_denied_message = _("Not_permitted_to_delete_other_users")
     model = get_user_model()
     template_name = "users/delete.html"
     next_page = success_url = reverse_lazy("users_index")
-    success_message = _("Deletion_success")
-
-    def get(self, request, *args, **kwargs):
-        if request.user.pk != kwargs["pk"]:
-            error(request, _("No_permissions_to_delete_other_user"))
-            return redirect("index")
-        return super().get(request, *args, **kwargs)
+    success_message = _("User_deletion_success")
 
 
-class UsersLogoutView(LogoutView):
+class UsersLogoutView(CustomLoginRequiredMixin, LogoutView):
     next_page = success_url = reverse_lazy("index")
     template_name = "index.html"
 

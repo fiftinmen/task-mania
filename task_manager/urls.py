@@ -24,4 +24,5 @@ urlpatterns = i18n_patterns(
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
     path("users/", include("task_manager.users.urls")),
+    path("statuses/", include("task_manager.statuses.urls")),
 )
