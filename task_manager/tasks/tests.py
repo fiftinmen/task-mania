@@ -38,38 +38,6 @@ class _TestTasksUtilsMixin(_TestUtilsMixin):
         )
         return task
 
-    def parametrized_test(
-        self: TestCase,
-        HTTP_request_method: callable,
-        request_test_data: dict,
-        response_test_data: dict,
-        user: CustomUser,
-        test_object: Model,
-    ):
-        """
-        hints
-
-        client.get(path: str, data: _RequestData = ...,
-        follow: bool = ..., secure: bool = ..., *, QUERY_STRING: str = ...,
-        headers: Mapping[str, Any] | None = ..., **extra: str) -> HttpResponse
-
-        client.post(path: str, data: _RequestData = ...,
-        content_type: str = ..., follow: bool = ..., secure: bool = ..., *,
-        QUERY_STRING: str = ..., headers: Mapping[str, Any] | None = ...,
-        **extra: str) -> HttpResponse
-
-        hint: assertContains(response: HttpResponseBase,
-        text: bytes | int | str, count: int | None = ...,
-        status_code: int = ..., msg_prefix: str = ...,
-        html: bool = ...) -> None
-        """
-        if user:
-            self.client.force_login(user)
-        HTTP_request_method(**request_test_data)
-        self.assertContains(**response_test_data)
-
-        self.client.logout()
-
 
 class TestsTasks(TestCase, _TestTasksUtilsMixin):
     def setUp(self):
