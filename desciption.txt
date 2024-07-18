@@ -1,0 +1,28 @@
+Проверка авторизации. Провал  - перенаправление на страницу авторизации 
+С авторизацией
+Без авторизации
+GET /tasks/ — страница со списком всех задач url, method, redirect_url, code_status, user
+GET /tasks/create/ — страница создания задачи url, method, redirect_url, code_status, user
+GET /tasks/<int:pk>/update/ — страница редактирования задачи url, method, id, redirect_url, code_status, user
+GET /tasks/<int:pk>/ — страница просмотра задачи url, method, id, redirect_url, code_status, user
+
+Авторизация + авторство. Провал авторизации - перенаправление на страницу авторизации
+С авторизацией с авторством
+С авторизацией без авторства
+Без авторизации
+Нет авторства - перенаправление на страницу задач
+GET /tasks/<int:pk>/delete/ — страница удаления задачи method, request_data: (url, id [wrong, right]), response_data: (redirect_url, code_status), user
+POST /tasks/<int:pk>/delete/ — удаление задачи url, id [wrong, right], method, redirect_url, code_status, user
+
+Авторизация + успешное выполнение + контроль заполнения
+Провал авторизации - перенаправление на авторизацию
+успешное выполнение: создание (обновление)
+контроль заполнения: подача неверных данных
+С авторизацией с верными данными
+С авторизацией с неверными данными
+Без авторизации
+POST /tasks/create/ — создание новой задачи, url, url_kwargs [wrong, right], method, redirect_url, code_status, user, test_data
+POST /tasks/<int:pk>/update/ — обновление задачи,  url, url_kwargs [wrong, right], method, redirect_url, code_status, user, test_data
+
+
+

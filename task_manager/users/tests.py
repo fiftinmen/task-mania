@@ -1,7 +1,12 @@
 from django.urls import reverse_lazy
 from django.test import TestCase, Client
 from .models import CustomUser
-from .fixtures.fixtures import valid_users, invalid_users, extended_valid_users
+from .fixtures.fixtures import (
+    valid_users,
+    invalid_users,
+    extended_valid_users,
+    other_user_data,
+)
 from task_manager._test_utils._test_utils import _TestUtilsMixin
 
 
@@ -18,10 +23,10 @@ class _TestUsersUtilsMixin(_TestUtilsMixin):
             )
         [self.delete_user(user["username"]) for user in users]
 
-    def create_user(self, user_data, force=False):
-        if force:
+    def get_or_create_user(self, user_data, force_recreate=False):
+        if force_recreate:
             self.delete_user(user_data["username"])
-        user = CustomUser.objects.get_or_create(
+        user, _ = CustomUser.objects.get_or_create(
             username=user_data["username"],
             password=user_data.get("password")
             or user_data.get("password1")
@@ -61,7 +66,7 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
             "password1": user["password1"],
             "password2": user["password2"],
         }
-        print("Test create user (POST) with data: ", data, end=" => ")
+
         self.assertFalse(
             CustomUser.objects.filter(username=data["username"]).exists()
         )
@@ -71,7 +76,6 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
         self.assertTrue(
             CustomUser.objects.filter(username=data["username"]).exists()
         )
-        print("succeeded.")
 
     def _test_users_update_post_success(self, user):
         data = {
@@ -81,8 +85,10 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
             "new_password1": user["password1"],
             "new_password2": user["password2"],
         }
-        print("Test update user with data: ", data, end=" => ")
-        self.client.login(username=user["username"], password=user["password1"])
+
+        self.client.force_login(
+            user=CustomUser.objects.get(username=user["username"])
+        )
         url = reverse_lazy("users_update", args=(user["id"],))
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
@@ -92,12 +98,13 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
             (updated_user.first_name, updated_user.last_name),
             (data["first_name"], data["last_name"]),
         )
-        print("succeeded.")
 
     def _test_users_delete_post_success(self, user):
         id = user["id"]
-        print("Test delete user with id: ", id, end=" => ")
-        self.client.login(username=user["username"], password=user["password1"])
+
+        self.client.force_login(
+            user=CustomUser.objects.get(username=user["username"])
+        )
         url = reverse_lazy("users_delete", args=(id,))
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
@@ -105,26 +112,25 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
         self.assertFalse(
             CustomUser.objects.filter(username=user["username"]).exists()
         )
-        print("succeeded.")
 
-    def _test_users_create_post_fail(self, user):
-        data = {
-            "username": user["username"],
-            "password1": user["password1"],
-            "password2": user["password2"],
+    def _test_users_create_post_fail(self, user_data):
+        user_data = {
+            "username": user_data["username"],
+            "password1": user_data["new_password1"],
+            "password2": user_data["new_password2"],
         }
-        print("Test delete user with bad data: ", data, end=" => ")
+
         self.assertFalse(
-            CustomUser.objects.filter(username=data["username"]).exists()
+            CustomUser.objects.filter(username=user_data["username"]).exists()
         )
-        response = self.client.post(reverse_lazy("users_create"), data)
+        response = self.client.post(reverse_lazy("users_create"), user_data)
         self.assertEqual(response.status_code, 200)
         self.assertFalse(
-            CustomUser.objects.filter(username=data["username"]).exists()
+            CustomUser.objects.filter(username=user_data["username"]).exists()
         )
-        print("successfully failed.")
 
     def _test_users_create_existing_user_post_fail(self, user):
+        self.client.logout()
         data = {
             "username": user["username"],
             "first_name": user["last_name"],
@@ -132,106 +138,104 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
             "new_password1": user["password1"],
             "new_password2": user["password2"],
         }
-        self.create_user(data, force=True)
-        print(
-            "Test create existing user (POST) with data to fail: ",
-            data,
-            end=" => ",
-        )
+        self.get_or_create_user(data, force_recreate=True)
         self.assertTrue(
             CustomUser.objects.filter(username=data["username"]).exists()
         )
+        self.client.logout()
         response = self.client.post(reverse_lazy("users_create"), data)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(
-            CustomUser.objects.filter(username=data["username"]).exists()
+        self.assertEqual(
+            CustomUser.objects.filter(username=data["username"]).count(), 1
         )
-        print("successfully failed.")
 
     def _test_users_create_by_user_post_fail(self, user):
         data = user | {"username": user["username"] + "x"}
-        self.create_user(user, force=True)
-        print(
-            "Test create existing user by user (POST) with data to fail: ",
-            data,
-            end=" => ",
-        )
+        self.get_or_create_user(user, force_recreate=True)
+
         self.assertTrue(
             CustomUser.objects.filter(username=user["username"]).exists()
         )
         self.assertFalse(
             CustomUser.objects.filter(username=data["username"]).exists()
         )
-        self.client.login(username=user["username"], password=user["password1"])
+        self.client.force_login(
+            user=CustomUser.objects.get(username=user["username"])
+        )
         response = self.client.post(reverse_lazy("users_create"), data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("index"))
         self.assertTrue(
             CustomUser.objects.filter(username=user["username"]).exists()
         )
-        print("successfully failed.")
 
     def _test_users_update_post_fail(self, data):
         valid_user_data = data[0]
-        valid_user, _ = self.create_user(valid_user_data, force=True)
+        valid_user = self.get_or_create_user(
+            valid_user_data, force_recreate=True
+        )
         invalid_user_data = data[1]
-        test_data = {
-            "username": invalid_user_data["username"],
-            "first_name": invalid_user_data["first_name"],
-            "last_name": invalid_user_data["last_name"],
-            "new_password1": invalid_user_data["password1"],
-            "new_password2": invalid_user_data["password1"],
-        }
-        print("Test update user with broken data: ", test_data, end=" => ")
 
-        print("Test updating data without authentication")
         self.client.logout()
         url = reverse_lazy("users_update", args=(valid_user.id,))
-        response = self.client.post(url, test_data)
+        response = self.client.post(url, invalid_user_data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("users_login"))
         updated_user = CustomUser.objects.get(username=valid_user.username)
         self.assertEqual(
-            (updated_user.first_name, updated_user.last_name),
-            (valid_user.first_name, valid_user.last_name),
+            (
+                updated_user.username,
+                updated_user.first_name,
+                updated_user.last_name,
+            ),
+            (
+                valid_user.username,
+                valid_user.first_name,
+                valid_user.last_name,
+            ),
         )
 
-        print("Test updating data with bad data")
-        self.client.login(
-            username=valid_user.username, password=valid_user.password
-        )
+        self.client.force_login(user=valid_user)
         url = reverse_lazy("users_update", args=(valid_user.id,))
-        response = self.client.post(url, test_data)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse_lazy("users_update"))
+        response = self.client.post(url, invalid_user_data)
+        self.assertEqual(response.status_code, 200)
         updated_user = CustomUser.objects.get(username=valid_user.username)
         self.assertEqual(
-            (updated_user.first_name, updated_user.last_name),
-            (valid_user.first_name, valid_user.last_name),
+            (
+                updated_user.username,
+                updated_user.first_name,
+                updated_user.last_name,
+            ),
+            (
+                valid_user.username,
+                valid_user.first_name,
+                valid_user.last_name,
+            ),
         )
 
-        print("Test updating other user's data")
-        self.client.login(
-            username=valid_user.username, password=valid_user.password
-        )
-        other_users_id = list({1, 2, 3} ^ {valid_user.id})[0]
-        url = reverse_lazy("users_update", args=(other_users_id,))
-        response = self.client.post(url, test_data)
+        other_user = self.get_or_create_user(other_user_data)
+        url = reverse_lazy("users_update", args=(other_user.id,))
+        response = self.client.post(url, valid_user_data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("users_index"))
-        updated_user = CustomUser.objects.get(username=valid_user.username)
+        updated_user = CustomUser.objects.get(id=other_user.id)
         self.assertEqual(
-            (updated_user.first_name, updated_user.last_name),
-            (valid_user.first_name, valid_user.last_name),
+            (
+                updated_user.username,
+                updated_user.first_name,
+                updated_user.last_name,
+            ),
+            (
+                other_user.username,
+                other_user.first_name,
+                other_user.last_name,
+            ),
         )
-        print("All successfully failed.")
 
     def _test_users_delete_post_fail(self, user_data):
-        valid_user, _ = self.create_user(user_data, force=True)
+        valid_user = self.get_or_create_user(user_data, force_recreate=True)
 
-        print("Test delete user: ", user_data, end=" => ")
-
-        print("Test deleting data without authentication")
+        self.client.logout()
         url = reverse_lazy("users_delete", args=(valid_user.id,))
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
@@ -242,21 +246,13 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
             (valid_user.first_name, valid_user.last_name),
         )
 
-        print("Test deleting other user's data")
-        self.client.login(
-            username=valid_user.username, password=valid_user.password
-        )
-        invalid_id = list({1, 2, 3} ^ {valid_user.id})[0]
-        url = reverse_lazy("users_delete", args=(invalid_id,))
+        self.client.force_login(user=valid_user)
+        other_user = self.get_or_create_user(other_user_data)
+        url = reverse_lazy("users_delete", args=(other_user.id,))
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("users_index"))
-        updated_user = CustomUser.objects.get(username=valid_user.username)
-        self.assertEqual(
-            (updated_user.first_name, updated_user.last_name),
-            (valid_user.first_name, valid_user.last_name),
-        )
-        print("All successfully failed.")
+        self.assertTrue(CustomUser.objects.filter(id=other_user.id).exists())
 
 
 class TestUsersGetCRUDSs(TestCase, _TestUsersUtilsMixin):
@@ -264,25 +260,67 @@ class TestUsersGetCRUDSs(TestCase, _TestUsersUtilsMixin):
         self.subject = "Users app (get method)"
         self.client = Client()
         self._tests_to_success_tuple = (
-            ("_test_users_index_get_success", valid_users),
+            ("_test_users_get_success", valid_users),
         )
-        self._tests_to_fail_tuple = []
+        self._tests_to_fail_tuple = (("_test_users_get_fail", valid_users),)
 
-    def _test_users_index_get_success(self, user):
+    def _test_users_get_success(self, user):
+        self.client.logout()
         response = self.client.get(reverse_lazy("users_index"))
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, user["username"])
         self.assertNotContains(response, user["first_name"])
         self.assertNotContains(response, user["last_name"])
-        self.create_user(user, force=True)
-        print(
-            "Test user registration page (GET) with user data ",
-            user,
-            end=" => ",
-        )
-        response = self.client.get(reverse_lazy("users_index"))
+        self.get_or_create_user(user, force_recreate=True)
+
+        response = self.client.get(reverse_lazy("users_create"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, user["username"])
-        self.assertContains(response, user["first_name"])
-        self.assertContains(response, user["last_name"])
-        print("succeeded.")
+
+        self.client.force_login(
+            user=CustomUser.objects.get(username=user["username"])
+        )
+        response = self.client.get(
+            reverse_lazy("users_update", args=(user["id"],))
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(
+            reverse_lazy("users_update", args=(user["id"],))
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def _test_users_get_fail(self, user):
+        valid_user = self.get_or_create_user(user)
+        self.client.force_login(valid_user)
+        response = self.client.get(reverse_lazy("users_create"))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse_lazy("index"))
+
+        other_users_id = list(
+            set(range(len(valid_users)))
+            ^ {
+                valid_user.id,
+            }
+        )[0]
+
+        url = reverse_lazy("users_update", args=(other_users_id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse_lazy("users_index"))
+
+        url = reverse_lazy("users_delete", args=(other_users_id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse_lazy("users_index"))
+
+        self.client.logout()
+
+        url = reverse_lazy("users_update", args=(valid_user.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse_lazy("users_login"))
+
+        url = reverse_lazy("users_delete", args=(valid_user.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse_lazy("users_login"))

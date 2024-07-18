@@ -31,12 +31,12 @@ class CustomLoginRequiredMixin(CustomUserTestMixin):
     login_url = None
 
     def __init__(self):
+        super().__init__()
         perm = "login_required"
-        self.permission_required.append(perm)
+        self.permission_required = [perm]
         self.permission_test[perm] = self.is_user_authenticated
         self.permission_denied_action[perm] = self.redirect_to_login
         self.permission_denied_message[perm] = _(perm)
-        super().__init__()
 
     def get_login_url(self):
         return self.login_url or settings.LOGIN_URL
@@ -55,23 +55,24 @@ class UsersModifyPermissionMixin(CustomLoginRequiredMixin):
     next_page = "index"
 
     def __init__(self):
-        perms = ["users.update_others", "users.delete_others"]
+        super().__init__()
+        perms = [
+            "users.update_others",
+            "users.delete_others",
+        ]
+        self.permission_required.extend(perms)
         for perm in perms:
-            self.permission_required.append(perm)
             self.permission_test[perm] = self.is_user_permitted_to_modify_others
             self.permission_denied_action[perm] = self.redirect_to_next_page
             self.permission_denied_message[perm] = _(
                 "Not_permitted_to_modify_other_users"
             )
-        super().__init__()
 
     def is_user_permitted_to_modify_others(
         self, request, perm, *args, **kwargs
     ):
-        print(request)
         user_pk = request.user.pk
         target_user_pk = self.kwargs.get("pk")
-        print(user_pk, target_user_pk)
         if user_pk != target_user_pk:
             return request.user.has_perms((perm,))
         return True

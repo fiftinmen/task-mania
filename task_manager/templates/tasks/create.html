@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+<div class="container">
+    <form action="{% url "tasks_create" %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3 row">
+            {{ form.as_p }}
+        </div>
+        <div class="mb-3 row">
+            <div class="offset-sm-4 col-sm-8">
+                <button type="submit" class="btn btn-primary">
+                    {% trans "Create" %}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock content %}

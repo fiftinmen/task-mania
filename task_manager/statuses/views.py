@@ -1,9 +1,6 @@
-from django import views
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
-from django.contrib.messages import info, error, warning
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .models import Status

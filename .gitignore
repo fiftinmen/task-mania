@@ -8,3 +8,4 @@ staticfiles
 dist
 __pycache__
 graph_models.html
+description.txt

@@ -35,10 +35,12 @@ new_valid_statuses = (
     {"pk": 6, "name": "1In test"},
     {"pk": 7, "name": "1Preparing"},
 )
-invalid_statuses = {
-    "name": """too long status name too long status name too long status
+invalid_statuses = [
+    {
+        "name": """too long status name too long status name too long status
         name too long status name too long status""",
-}
+    }
+]
 user_fixture = {
     "username": "User",
     "first_name": "Us",

@@ -6,12 +6,10 @@ from .fixtures.fixtures import (
     valid_statuses,
     new_valid_statuses,
     invalid_statuses,
-    non_existent_statuses,
     user_fixture,
     default_status_fixture,
 )
 from task_manager._test_utils._test_utils import _TestUtilsMixin
-from task_manager.users.models import CustomUser
 
 
 class _TestStatusesUtilsMixin(_TestUtilsMixin):
@@ -51,7 +49,6 @@ class TestsStatuses(TestCase, _TestStatusesUtilsMixin):
             ("_test_statuses_post_no_auth_fail", urls_data),
             ("_test_statuses_create_post_fail", invalid_statuses),
             ("_test_statuses_update_post_fail", invalid_statuses),
-            ("_test_statuses_delete_post_fail", non_existent_statuses),
         )
         self.default_user = self.create_user(user_fixture)
         self.default_status = self.create_status(default_status_fixture)
@@ -115,12 +112,10 @@ class TestsStatuses(TestCase, _TestStatusesUtilsMixin):
         response = self.client.get(reverse_lazy(**url_data))
         self.assertEqual(response.status_code, 302)
         redirect_url = reverse_lazy("users_login")
-        print(response.serialize())
-        print(url_data)
         self.assertRedirects(response, redirect_url)
 
     def _test_statuses_post_no_auth_fail(self, url_data: dict) -> None:
-        data = {"name": self.default_status["name"]}
+        data = {"name": self.default_status.name}
         response = self.client.post(reverse_lazy(**url_data), data)
         self.assertEqual(response.status_code, 302)
         redirect_url = reverse_lazy("users_login")
@@ -129,45 +124,35 @@ class TestsStatuses(TestCase, _TestStatusesUtilsMixin):
     def _test_statuses_create_post_fail(self, invalid_status: dict) -> None:
         user = self.default_user
         self.client.force_login(user)
-        data = {"name": invalid_status["name"]}
-        self.assertFalse(Status.objects.filter(name=data["name"]).exists())
-        response = self.client.post(reverse_lazy("statuses_create"), data)
-        self.assertFalse(Status.objects.filter(name=data["name"]).exists())
-        self.assertEqual(response.status_code, 302)
-        redirect_url = reverse_lazy("users_login")
-        self.assertRedirects(response, redirect_url)
+        self.assertFalse(
+            Status.objects.filter(name=invalid_status["name"]).exists()
+        )
+        response = self.client.post(
+            reverse_lazy("statuses_create"), invalid_status
+        )
+        self.assertFalse(
+            Status.objects.filter(name=invalid_status["name"]).exists()
+        )
+        self.assertEqual(response.status_code, 200)
         self.client.logout()
 
     def _test_statuses_update_post_fail(self, invalid_status: dict) -> None:
         user = self.default_user
         self.client.force_login(user)
-        data = {"name": invalid_status["name"]}
         self.assertTrue(
-            Status.objects.filter(name=self.default_status["pk"]).exists()
+            Status.objects.filter(name=self.default_status.name).exists()
         )
         response = self.client.post(
-            reverse_lazy("statuses_delete", pk=self.default_status["pk"]), data
+            reverse_lazy("statuses_update", args=(self.default_status.pk,)),
+            invalid_status,
         )
-        self.assertFalse(Status.objects.filter(name=data["name"]).exists())
+        self.assertFalse(
+            Status.objects.filter(name=invalid_status["name"]).exists()
+        )
         self.assertTrue(
-            Status.objects.filter(name=self.default_status["name"]).exists()
+            Status.objects.filter(name=self.default_status.name).exists()
         )
-        self.assertEqual(response.status_code, 302)
-        redirect_url = reverse_lazy("users_login")
-        self.assertRedirects(response, redirect_url)
-        self.client.logout()
-
-    def _test_statuses_delete_post_fail(
-        self, non_existent_status: dict
-    ) -> None:
-        user = self.default_user
-        self.client.force_login(user)
-        response = self.client.post(
-            reverse_lazy("statuses_delete", pk=non_existent_status["pk"])
-        )
-        self.assertEqual(response.status_code, 302)
-        redirect_url = reverse_lazy("users_login")
-        self.assertRedirects(response, redirect_url)
+        self.assertEqual(response.status_code, 200)
         self.client.logout()
 
     def _test_statuses_delete_with_related_task_post_fail(self, status):
@@ -176,7 +161,7 @@ class TestsStatuses(TestCase, _TestStatusesUtilsMixin):
         status = self.create_status(status["name"])
         status.task_set.create(f'{status["name"]}_task')
         response = self.client.post(
-            reverse_lazy("statuses_delete", pk=status.pk)
+            reverse_lazy("statuses_delete", args=(status.pk,))
         )
         self.assertEqual(response.status_code, 302)
         redirect_url = reverse_lazy("users_login")
