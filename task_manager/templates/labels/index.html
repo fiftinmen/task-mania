@@ -8,7 +8,7 @@
 <h1 class="my-4">
 {% trans 'Tasks' %}
 </h1>
-<a class="btn btn-primary mb-3" href={% url 'tasks_create'%}>
+<a class="btn btn-primary mb-3" href={% url 'labels_create'%}>
     {% trans "Create" %}
 </a>
 <div class="table-responsive">
@@ -16,35 +16,26 @@
         <tr class="border bottom">
             <th>{% trans "ID" %}</th>
             <th>{% trans "Name" %}</th>
-            <th>{% trans "Status" %}</th>
-            <th>{% trans "Author" %}</th>
-            <th>{% trans "Executor" %}</th>
             <th>{% trans "Date of creation" %}</th>
             <th>{% trans "Actions" %}</th>
         </tr>
-        {% for task in object_list %}
+        {% for label in object_list %}
             <tr class="border bottom">
                 <td>
-                    {{ task.pk }}
+                    {{ label.pk }}
                 </td>
                 <td>
-                  <a href="{% url 'tasks_detail' task.pk %}">{{ task.name }}</a>
+                  {{ label.name }}
                 </td>
                 <td>
-                    {{ task.status }}
+                    {{ label.status }}
                 </td>
                 <td>
-                    {{ task.author }}
+                    {{ label.created_at }}
                 </td>
                 <td>
-                    {{ task.executor }}
-                </td>
-                <td>
-                    {{ task.created_at }}
-                </td>
-                <td>
-                <div><a href="{% url 'tasks_update' pk=task.id %}">{% trans 'Update' %}</a></div>
-                <div><a href="{% url 'tasks_delete' pk=task.id %}">{% trans 'Delete' %}</a></div>
+                <div><a href="{% url 'labels_update' pk=label.id %}">{% trans 'Update' %}</a></div>
+                <div><a href="{% url 'labels_delete' pk=label.id %}">{% trans 'Delete' %}</a></div>
                 </td>
             </tr>
         {% endfor %}

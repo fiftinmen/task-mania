@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+<div class="container-md">
+    <div class="row justify-content-center align-items-center g-2">
+    <h2 class="h2">{{ object.name }}</h2>
+        <table class="table">
+        <tr>
+        <td>{% trans 'Author' %}</td>
+        <td>{{ object.author }}</td>
+        </tr>
+        <tr>
+        <td>{% trans 'Executor' %}</td>
+        <td>{{ object.executor }}</td>
+        </tr>
+        <tr>
+        <td>{% trans 'Name' %}</td>
+        <td>{{ object.name }}</td>
+        </tr>
+        <tr>
+        <td>{% trans 'Status' %}</td>
+        <td>{{ object.status }}</td>
+        </tr>
+        <tr>
+        <td>{% trans 'Created_at' %}</td>
+        <td>{{ object.created_at }}</td>
+        </tr>
+        <tr>
+        <td>{% trans 'Labels' %}</td>
+        <td>{{ object.labels }}</td>
+        </tr>
+        </table>
+        <div><a href="{% url 'tasks_delete' pk=object.pk %}">{% trans 'Delete' %}</a></div>
+        <div><a href="{% url 'tasks_update' pk=object.pk %}">{% trans 'Update' %}</a></div>
+    </div>  
+</div>
+{% endblock content %}

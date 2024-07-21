@@ -21,14 +21,6 @@ valid_tasks = (
     {"pk": 6, "name": "Do anything"},
     {"pk": 7, "name": "Do everything"},
 )
-non_existent_tasks = (
-    {
-        "pk": 101,
-    },
-    {
-        "pk": 102,
-    },
-)
 new_valid_tasks = (
     {"pk": 2, "name": "1Do something"},
     {"pk": 3, "name": "1Do something else"},
@@ -37,10 +29,12 @@ new_valid_tasks = (
     {"pk": 6, "name": "1Do anything"},
     {"pk": 7, "name": "1Do everything"},
 )
-invalid_tasks = {
-    "name": """too long task name too long task name too long task
-        name too long task name too long task""",
-}
+invalid_tasks = (
+    {
+        "name": """too long task name too long task name too long task
+        name too long task name too long task too loong too long""",
+    },
+)
 user_fixture1 = {
     "username": "User1",
     "first_name": "Us",

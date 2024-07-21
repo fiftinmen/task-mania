@@ -31,8 +31,8 @@
                     {{ status.created_at }}
                 </td>
                 <td>
-                <div><a href="{% url 'statuses_update' pk=status.id %}">Изменить</a></div>
-                <div><a href="{% url 'statuses_delete' pk=status.id %}">Удалить</a></div>
+                <div><a href="{% url 'statuses_update' pk=status.id %}">{% trans 'Update' %}</a></div>
+                <div><a href="{% url 'statuses_delete' pk=status.id %}">{% trans 'Delete' %}</a></div>
                 </td>
             </tr>
         {% endfor %}

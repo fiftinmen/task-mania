@@ -226,9 +226,9 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
                 updated_user.last_name,
             ),
             (
-                other_user.username,
-                other_user.first_name,
-                other_user.last_name,
+                other_user_data["username"],
+                other_user_data["first_name"],
+                other_user_data["last_name"],
             ),
         )
 
@@ -296,19 +296,14 @@ class TestUsersGetCRUDSs(TestCase, _TestUsersUtilsMixin):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("index"))
 
-        other_users_id = list(
-            set(range(len(valid_users)))
-            ^ {
-                valid_user.id,
-            }
-        )[0]
+        other_user = self.get_or_create_user(other_user_data)
 
-        url = reverse_lazy("users_update", args=(other_users_id,))
+        url = reverse_lazy("users_update", args=(other_user.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("users_index"))
 
-        url = reverse_lazy("users_delete", args=(other_users_id,))
+        url = reverse_lazy("users_delete", args=(other_user.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("users_index"))

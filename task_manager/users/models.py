@@ -58,8 +58,10 @@ class CustomUser(AbstractUser):
 
     class Meta:
         permissions = [
-            ("self_update", "Can self update"),
-            ("self_delete", "Can self delete"),
+            ("users.update_all", "Can update all users"),
+            ("users.delete_all", "Can delete all users"),
+            ("users.update_self", "Can self update"),
+            ("users.delete_self", "Can self delete"),
         ]
 
     def get_full_name(self):

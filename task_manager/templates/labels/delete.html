@@ -5,22 +5,21 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
+
 <div class="container">
-    <form action="{% url "tasks_update" pk=object.pk %}" method="post">
+    <form action="{% url "labels_delete" pk=object.pk %}" method="post">
         {% csrf_token %}
-        {{ pk }}
         <div class="mb-3 row">
-            {{ form.as_p }}
+            {% trans 'Confirm_delete_item' %}{{object.name}}
         </div>
         <div class="mb-3 row">
             <div class="offset-sm-4 col-sm-8">
                 <button type="submit" class="btn btn-primary">
-                    {% trans "Update" %}
+                    {% trans "Delete" %}
                 </button>
             </div>
         </div>
     </form>
 </div>
-
 
 {% endblock content %}

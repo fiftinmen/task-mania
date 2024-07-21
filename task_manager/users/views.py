@@ -8,12 +8,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.list import ListView
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
-from django.contrib.auth.models import Group, Permission
 from . import forms
-from task_manager.mixins import (
-    UsersModifyPermissionMixin,
-    CustomLoginRequiredMixin,
-)
+from .mixins import CustomLoginRequiredMixin, UsersModifyPermissionMixin
 
 
 class UsersIndexView(ListView):
@@ -57,27 +53,12 @@ class UsersCreateView(SuccessMessageMixin, CreateView):
             return redirect("index")
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        return super().post(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        users_group, created = Group.objects.get_or_create(name="users_group")
-        if created:
-            users_group.permissions.add(
-                Permission.objects.get(codename="self_update"),
-                Permission.objects.get(codename="self_delete"),
-            )
-        response = super().form_valid(form)
-        self.object.groups.set([users_group])
-        self.object.save()
-        return response
-
 
 class UsersUpdateView(
     UsersModifyPermissionMixin, SuccessMessageMixin, UpdateView
 ):
     model = get_user_model()
+    perms = ["users.update_all"]
     form_class = forms.UsersUpdateForm
     template_name = "users/update.html"
     next_page = success_url = reverse_lazy("users_index")
@@ -88,6 +69,7 @@ class UsersDeleteView(
     UsersModifyPermissionMixin, SuccessMessageMixin, DeleteView
 ):
     model = get_user_model()
+    perms = ["users.delete_all"]
     template_name = "users/delete.html"
     next_page = success_url = reverse_lazy("users_index")
     success_message = _("User_deletion_success")
