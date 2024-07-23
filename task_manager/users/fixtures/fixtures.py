@@ -1,6 +1,6 @@
 valid_users = (
     {
-        "id": 1,
+        "pk": 1,
         "username": "Alex",
         "password1": "123",
         "password2": "123",
@@ -8,7 +8,7 @@ valid_users = (
         "last_name": "Andreas",
     },
     {
-        "id": 2,
+        "pk": 2,
         "username": "HarryPotter",
         "password1": "3312",
         "password2": "3312",
@@ -16,7 +16,7 @@ valid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 3,
+        "pk": 3,
         "username": "Max1",
         "password1": "mmaxxx2_1",
         "password2": "mmaxxx2_1",
@@ -31,7 +31,7 @@ extended_valid_users = valid_users * 4
 
 invalid_users = (
     {
-        "id": 1,
+        "pk": 1,
         "username": "!drakula",
         "new_password1": "333",
         "new_password2": "333",
@@ -39,7 +39,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 2,
+        "pk": 2,
         "username": """111111111111111111111111111111111111111111111111111
         111111111111111111111111111111111111111111111111111111111111111111
         111111111111111111111111111111111111111111111111111111111111111111
@@ -50,7 +50,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 3,
+        "pk": 3,
         "username": "",
         "new_password1": "333",
         "new_password2": "333",
@@ -58,7 +58,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 4,
+        "pk": 4,
         "username": "aaa",
         "new_password1": "33",
         "new_password2": "33",
@@ -66,7 +66,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 5,
+        "pk": 5,
         "username": "aaa",
         "new_password1": "33",
         "new_password2": "333",
@@ -74,7 +74,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 6,
+        "pk": 6,
         "username": "aaa",
         "new_password1": "333",
         "new_password2": "33",
@@ -82,7 +82,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 7,
+        "pk": 7,
         "username": "aaa",
         "new_password1": "333",
         "new_password2": "3333",
@@ -90,7 +90,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 8,
+        "pk": 8,
         "username": "aaa",
         "new_password1": "3333",
         "new_password2": "333",
@@ -98,7 +98,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 9,
+        "pk": 9,
         "username": "aaa",
         "new_password1": "3333",
         "new_password2": "333",
@@ -106,7 +106,7 @@ invalid_users = (
         "last_name": "",
     },
     {
-        "id": 10,
+        "pk": 10,
         "username": "aaa",
         "new_password1": "3333",
         "new_password2": "333",
@@ -114,7 +114,7 @@ invalid_users = (
         "last_name": "Potter",
     },
     {
-        "id": 11,
+        "pk": 11,
         "username": "aaa",
         "new_password1": "3333",
         "new_password2": "333",

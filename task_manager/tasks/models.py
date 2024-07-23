@@ -21,4 +21,22 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
+    labels = models.ManyToManyField(
+        to="labels.Label", through="TaskLabels", blank=True
+    )
+
     REQUIRED_FIELDS = ["name", "status", "author"]
+
+    class Meta:
+        permissions = [
+            ("tasks.delete_all", "Can delete all tasks"),
+            ("tasks.delete_own", "Can delete own tasks"),
+        ]
+
+    def __str__(self):
+        return self.name
+
+
+class TaskLabels(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    label = models.ForeignKey(to="labels.Label", on_delete=models.PROTECT)

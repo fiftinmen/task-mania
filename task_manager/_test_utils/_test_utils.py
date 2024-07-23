@@ -20,7 +20,8 @@ class _TestUtilsMixin:
         if getattr(self, "subject", None) is None:
             class_name = self.__class__
             print(
-                f"Set self.subject in setUp method for {class_name}. Temporarily using '{class_name}' as test subject."
+                f"Set self.subject in setUp method for {class_name}."
+                " Temporarily using '{class_name}' as test subject."
             )
             subject = class_name
         else:
@@ -35,7 +36,7 @@ class _TestUtilsMixin:
             if user := CustomUser.objects.filter(username=username):
                 user.delete()
 
-    def delete_users(self, users=[]):
+    def delete_users(self, users=None):
         if not users:
             users = (
                 {"username": user.username} for user in CustomUser.objects.all()

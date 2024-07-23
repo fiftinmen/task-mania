@@ -4,7 +4,7 @@
 {% load static %}
 <div class="container mt-4 bg-light">
     <div class="row">
-        <div class="col-10">
+        <div class="col-9">
             <nav class="navbar navbar-expand">
                 <div>
                     <ul class="nav navbar">
@@ -19,10 +19,10 @@
                             <a class="nav-link" href="{% url 'statuses_index' %}">{% trans 'Statuses'%}</a>
                         </li>
                         <li class="nav-item" >
-                            <a class="nav-link" href="{% url 'tasks_index' %}">{% trans 'Tags'%}</a>
+                            <a class="nav-link" href="{% url 'tasks_index' %}">{% trans 'Tasks'%}</a>
                         </li>
                         <li class="nav-item" >
-                            <a class="nav-link" href="{% url 'users_index' %}">{% trans 'Tasks'%}</a>
+                            <a class="nav-link" href="{% url 'labels_index' %}">{% trans 'Labels'%}</a>
                         </li>
                         </li>
                         {% else %}
@@ -38,8 +38,9 @@
             </nav>
         </div>
         {% if request.user.is_authenticated %}
-            <nav class="navbar navbar-expand col-2">
+            <nav class="navbar navbar-expand col-3">
                 <ul class="nav navbar float-end">
+                    {% blocktrans with username=request.user.first_name %}Hello, {{ username }}{% endblocktrans %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users_profile' %}">{% trans 'Account' %} </a>
                     </li>

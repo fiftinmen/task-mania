@@ -16,10 +16,10 @@ class CustomUserTestMixin:
 
     def dispatch(self, request, *args, **kwargs):
         for perm in self.permission_required:
-            users_passes_test = self.permission_test[perm]
-            action = self.permission_denied_action[perm]
-            if not users_passes_test(request, perm, *args, **kwargs):
-                return action(perm, request, *args, **kwargs)
+            if not self.permission_test[perm](request, perm, *args, **kwargs):
+                return self.permission_denied_action[perm](
+                    perm, request, *args, **kwargs
+                )
         return super().dispatch(request, *args, **kwargs)
 
     def get_message(self, perm):
@@ -50,34 +50,38 @@ class CustomLoginRequiredMixin(CustomUserTestMixin):
         return redirect(self.get_login_url(), *args, **kwargs)
 
 
-class UsersModifyPermissionMixin(CustomLoginRequiredMixin):
+class NotOwnObjectPermissionMixin(CustomLoginRequiredMixin):
 
-    next_page = "index"
+    owner_field = "owner"
 
     def __init__(self):
         super().__init__()
-        perms = [
-            "users.update_others",
-            "users.delete_others",
-        ]
-        self.permission_required.extend(perms)
-        for perm in perms:
-            self.permission_test[perm] = self.is_user_permitted_to_modify_others
+        self.permission_required.extend(self.perms)
+        for perm in self.perms:
+            self.permission_test[perm] = self.is_user_permitted
             self.permission_denied_action[perm] = self.redirect_to_next_page
-            self.permission_denied_message[perm] = _(
-                "Not_permitted_to_modify_other_users"
-            )
+            if self.permission_denied_message.get(perm) is None:
+                self.permission_denied_message[perm] = _(
+                    "Not_permitted_to_modify_object"
+                )
 
-    def is_user_permitted_to_modify_others(
-        self, request, perm, *args, **kwargs
-    ):
-        user_pk = request.user.pk
-        target_user_pk = self.kwargs.get("pk")
-        if user_pk != target_user_pk:
-            return request.user.has_perms((perm,))
-        return True
+    def is_user_object_owner(self, request):
+        obj = self.model.objects.get(pk=self.kwargs["pk"])
+        return request.user.pk == getattr(obj, self.owner_field).pk
+
+    def is_user_permitted(self, request, perm, *args, **kwargs):
+        return self.is_user_object_owner(request) or request.user.has_perm(perm)
 
     def redirect_to_next_page(self, perm, request, *args, **kwargs):
         message = self.get_message(perm)
         error(request, message)
         return redirect(self.next_page, *args, **kwargs)
+
+
+class UsersModifyPermissionMixin(NotOwnObjectPermissionMixin):
+
+    next_page = "index"
+    owner_field = "username"
+
+    def is_user_object_owner(self, request):
+        return request.user.pk == self.kwargs["pk"]

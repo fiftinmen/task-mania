@@ -23,6 +23,11 @@ urlpatterns = [
     path("", views.TasksIndexView.as_view(), name="tasks_index"),
     path("create/", views.TasksCreateView.as_view(), name="tasks_create"),
     path(
+        "<int:pk>/",
+        views.TasksDetailView.as_view(),
+        name="tasks_detail",
+    ),
+    path(
         "delete/<int:pk>/",
         views.TasksDeleteView.as_view(),
         name="tasks_delete",

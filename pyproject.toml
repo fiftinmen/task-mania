@@ -19,6 +19,8 @@ psycopg2-binary = "^2.9.9"
 gunicorn = "^22.0.0"
 django-extensions = "^3.2.1"
 django-admin = "^2.0.2"
+django-filter = "^24.2"
+rollbar = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"

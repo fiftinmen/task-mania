@@ -10,7 +10,15 @@ urls_data = (
 )
 default_task_fixture = {"id": 1, "name": "Default_Task"}
 default_status_fixture = {"id": 1, "name": "Default_Status"}
-
+valid_statuses = (
+    # id 1 is reserved for default status
+    {"pk": 2, "name": "Status"},
+    {"pk": 3, "name": "On delay"},
+    {"pk": 4, "name": "Stopped"},
+    {"pk": 5, "name": "In work"},
+    {"pk": 6, "name": "In test"},
+    {"pk": 7, "name": "Preparing"},
+)
 # default task must be created in TestsStatuses.setUp;
 valid_tasks = (
     # id 1 is reserved for default task
@@ -21,14 +29,6 @@ valid_tasks = (
     {"pk": 6, "name": "Do anything"},
     {"pk": 7, "name": "Do everything"},
 )
-non_existent_tasks = (
-    {
-        "pk": 101,
-    },
-    {
-        "pk": 102,
-    },
-)
 new_valid_tasks = (
     {"pk": 2, "name": "1Do something"},
     {"pk": 3, "name": "1Do something else"},
@@ -37,10 +37,12 @@ new_valid_tasks = (
     {"pk": 6, "name": "1Do anything"},
     {"pk": 7, "name": "1Do everything"},
 )
-invalid_tasks = {
-    "name": """too long task name too long task name too long task
-        name too long task name too long task""",
-}
+invalid_tasks = (
+    {
+        "name": """too long task name too long task name too long task
+        name too long task name too long task too loong too long""",
+    },
+)
 user_fixture1 = {
     "username": "User1",
     "first_name": "Us",

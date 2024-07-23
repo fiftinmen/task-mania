@@ -34,7 +34,6 @@ load_dotenv()
 SECRET_KEY = os.environ["SECRET_KEY"]
 DATABASE_URL = os.environ.get("DATABASE_URL")
 DEBUG = DATABASE_URL is None
-
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = [
@@ -55,11 +54,12 @@ INSTALLED_APPS = [
     "django_extensions",
     "shell_plus",
     "django_bootstrap5",
+    "django.contrib.admin",
     "task_manager",
     "task_manager.users",
-    "django.contrib.admin",
     "task_manager.tasks",
     "task_manager.statuses",
+    "task_manager.labels",
 ]
 
 MIDDLEWARE = [
@@ -72,7 +72,15 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
+
+ROLLBAR = {
+    "access_token": "eab164d4a80944f3844c0966ecf574f3",
+    "environment": "development" if DEBUG else "production",
+    "code_version": "1.0",
+    "root": BASE_DIR,
+}
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
