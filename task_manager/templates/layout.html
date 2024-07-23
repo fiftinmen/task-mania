@@ -20,7 +20,7 @@
             {% include 'navigation.html' %}
         </header>
         <main>
-            <div class="container wrapper d-flex flex-column mt-5">
+            <div class="container wrapper d-flex flex-column mt-1">
                 {% if messages %}
                     <div class="row">
                         {% for message in messages %}
@@ -29,6 +29,9 @@
                     </div>
                 {% endif %}
                 <div class="row flex-grow-1">
+                    <h1 class="my-4">
+                        {{ page_header }}
+                    </h1>
                     {% block content %}
                     {% endblock %}
                 </div>

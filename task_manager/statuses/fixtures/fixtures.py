@@ -19,14 +19,6 @@ valid_statuses = (
     {"pk": 6, "name": "In test"},
     {"pk": 7, "name": "Preparing"},
 )
-non_existent_statuses = (
-    {
-        "pk": 101,
-    },
-    {
-        "pk": 102,
-    },
-)
 new_valid_statuses = (
     {"pk": 2, "name": "1Status"},
     {"pk": 3, "name": "1On delay"},

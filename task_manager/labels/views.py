@@ -17,6 +17,7 @@ class LabelsIndexView(CustomLoginRequiredMixin, ListView):
     pagination = 10
     template_name = "labels/index.html"
     next_page = reverse_lazy("index")
+    extra_context = {"page_header": _("Labels")}
 
 
 class LabelsDetailView(CustomLoginRequiredMixin, DetailView):

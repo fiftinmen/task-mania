@@ -15,7 +15,10 @@
         </tr>
         <tr>
         <td>{% trans 'Executor' %}</td>
-        <td>{{ object.executor }}</td>
+        <td>{% if object.executor.exist %}
+        {{ object.executor }} 
+        {% else %} <em>{% trans 'Not assigned'%}</em>
+        {% endif %}</td>
         </tr>
         <tr>
         <td>{% trans 'Name' %}</td>
@@ -31,7 +34,11 @@
         </tr>
         <tr>
         <td>{% trans 'Labels' %}</td>
-        <td>{{ object.labels }}</td>
+        <td>{% if object.labels.exist %}
+        {{ object.labels }} 
+        {% else %}
+        <em>{% trans 'Not specified' %}</em>
+        {% endif %}</td>
         </tr>
         </table>
         <div><a href="{% url 'tasks_delete' pk=object.pk %}">{% trans 'Delete' %}</a></div>

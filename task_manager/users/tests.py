@@ -16,7 +16,7 @@ class _TestUsersUtilsMixin(_TestUtilsMixin):
             if user := CustomUser.objects.filter(username=username):
                 user.delete()
 
-    def delete_users(self, users=[]):
+    def delete_users(self, users=None):
         if not users:
             users = (
                 {"username": user.username} for user in CustomUser.objects.all()
@@ -89,7 +89,7 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
         self.client.force_login(
             user=CustomUser.objects.get(username=user["username"])
         )
-        url = reverse_lazy("users_update", args=(user["id"],))
+        url = reverse_lazy("users_update", args=(user["pk"],))
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("users_index"))
@@ -100,12 +100,12 @@ class TestUsersPostCRUDSs(TestCase, _TestUsersUtilsMixin):
         )
 
     def _test_users_delete_post_success(self, user):
-        id = user["id"]
+        pk = user["pk"]
 
         self.client.force_login(
             user=CustomUser.objects.get(username=user["username"])
         )
-        url = reverse_lazy("users_delete", args=(id,))
+        url = reverse_lazy("users_delete", args=(pk,))
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse_lazy("users_index"))
@@ -280,12 +280,12 @@ class TestUsersGetCRUDSs(TestCase, _TestUsersUtilsMixin):
             user=CustomUser.objects.get(username=user["username"])
         )
         response = self.client.get(
-            reverse_lazy("users_update", args=(user["id"],))
+            reverse_lazy("users_update", args=(user["pk"],))
         )
         self.assertEqual(response.status_code, 200)
 
         response = self.client.get(
-            reverse_lazy("users_update", args=(user["id"],))
+            reverse_lazy("users_update", args=(user["pk"],))
         )
         self.assertEqual(response.status_code, 200)
 
