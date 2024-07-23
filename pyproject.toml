@@ -21,6 +21,7 @@ django-extensions = "^3.2.1"
 django-admin = "^2.0.2"
 django-filter = "^24.2"
 rollbar = "0.16.3"
+django-shell-plus = "^1.1.7"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
@@ -28,7 +29,6 @@ flake8 = "^7.1.0"
 django-admin = "^2.0.2"
 pytest-django = "^4.5.2"
 ipython = "^8.5.0"
-django-shell-plus = "^1.1.7"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
