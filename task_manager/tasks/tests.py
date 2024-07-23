@@ -1,7 +1,11 @@
 from django.db.models import Model
 from django.test import TestCase, Client
+from task_manager._test_utils._test_utils import _TestUtilsMixin
 from django.urls import reverse_lazy
 from .models import Task
+from task_manager.statuses.models import Status
+from task_manager.users.models import CustomUser
+
 from .fixtures.fixtures import (
     urls_data,
     valid_tasks,
@@ -12,9 +16,8 @@ from .fixtures.fixtures import (
     default_task_fixture,
     default_status_fixture,
 )
-from task_manager._test_utils._test_utils import _TestUtilsMixin
-from task_manager.statuses.models import Status
-from task_manager.users.models import CustomUser
+
+HEADER_ROWS_NUMBER = 1
 
 
 class _TestTasksUtilsMixin(_TestUtilsMixin):
@@ -38,40 +41,67 @@ class _TestTasksUtilsMixin(_TestUtilsMixin):
         )
         return task
 
-    def parametrized_test(
-        self: TestCase,
-        HTTP_request_method: callable,
-        request_test_data: dict,
-        response_test_data: dict,
-        user: CustomUser,
-        test_object: Model,
-    ):
-        """
-        hints
 
-        client.get(path: str, data: _RequestData = ...,
-        follow: bool = ..., secure: bool = ..., *, QUERY_STRING: str = ...,
-        headers: Mapping[str, Any] | None = ..., **extra: str) -> HttpResponse
+class TestTasksFilters(TestCase, _TestUtilsMixin):
+    fixtures = ("fixtures.json.gz",)
 
-        client.post(path: str, data: _RequestData = ...,
-        content_type: str = ..., follow: bool = ..., secure: bool = ..., *,
-        QUERY_STRING: str = ..., headers: Mapping[str, Any] | None = ...,
-        **extra: str) -> HttpResponse
+    def setUp(self):
+        self.users = CustomUser.objects.all()
+        self.current_user = self.users[0]
+        self.current_user_tasks = self.current_user.task_author
+        self.client = Client()
+        self._tests_to_success_tuple = (
+            ("_test_tasks_filter_by_own_tasks", (None,)),
+            ("_test_tasks_filter_by_executor", self.users),
+        )
 
-        hint: assertContains(response: HttpResponseBase,
-        text: bytes | int | str, count: int | None = ...,
-        status_code: int = ..., msg_prefix: str = ...,
-        html: bool = ...) -> None
-        """
-        if user:
-            self.client.force_login(user)
-        HTTP_request_method(**request_test_data)
-        self.assertContains(**response_test_data)
+    def _test_tasks_filter_by_own_tasks(self, *arg):
+        self.client.force_login(self.current_user)
+        url = reverse_lazy("tasks_index")
+        data = {"only_own_tasks": True}
+        response = self.client.get(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            f"{self.current_user.username}",
+        )
+        self.assertTrue(
+            response,
+            all(
+                self.assertContains(response, task.name)
+                for task in self.current_user_tasks.all()
+            ),
+        )
+        expected_rows_number = (
+            self.current_user_tasks.all().count() + HEADER_ROWS_NUMBER
+        )
+        self.assertContains(response, "<tr", expected_rows_number)
 
-        self.client.logout()
+    def _test_tasks_filter_by_executor(self, executor):
+        self.client.force_login(self.current_user)
+        tasks = executor.task_executor
+        url = reverse_lazy("tasks_index")
+        data = {"executor": executor.pk}
+        response = self.client.get(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            f"{executor.username}",
+        )
+        self.assertTrue(
+            response,
+            all(
+                self.assertContains(response, task.name) for task in tasks.all()
+            ),
+        )
+        expected_rows_number = tasks.all().count() + HEADER_ROWS_NUMBER
+        self.assertContains(response, "<tr", expected_rows_number)
 
 
-class TestsTasks(TestCase, _TestTasksUtilsMixin):
+class TestsTasks(
+    _TestTasksUtilsMixin,
+    TestCase,
+):
     def setUp(self):
         self.assertContains()
         self.subject = "tasks app"

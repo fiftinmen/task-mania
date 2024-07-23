@@ -5,8 +5,8 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
-<a class="btn btn-primary mb-3" href={% url 'statuses_create'%}>
-                    {% trans "Create" %}
+<a class="btn btn-primary mb-3" href={% url 'labels_create'%}>
+    {% trans "Create" %}
 </a>
 <div class="table-responsive">
     <table class="table table-primary">
@@ -16,20 +16,20 @@
             <th>{% trans "Date of creation" %}</th>
             <th>{% trans "Actions" %}</th>
         </tr>
-        {% for status in object_list %}
+        {% for label in object_list %}
             <tr class="border bottom">
                 <td>
-                    {{ status.pk }}
+                    {{ label.pk }}
                 </td>
                 <td>
-                  {{ status.name }}
+                  {{ label.name }}
+                </td>   
+                <td>
+                    {{ label.created_at }}
                 </td>
                 <td>
-                    {{ status.created_at }}
-                </td>
-                <td>
-                <div><a href="{% url 'statuses_update' pk=status.id %}">Изменить</a></div>
-                <div><a href="{% url 'statuses_delete' pk=status.id %}">Удалить</a></div>
+                <div><a href="{% url 'labels_update' pk=label.id %}">{% trans 'Update' %}</a></div>
+                <div><a href="{% url 'labels_delete' pk=label.id %}">{% trans 'Delete' %}</a></div>
                 </td>
             </tr>
         {% endfor %}
