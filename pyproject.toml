@@ -20,7 +20,7 @@ gunicorn = "^22.0.0"
 django-extensions = "^3.2.1"
 django-admin = "^2.0.2"
 django-filter = "^24.2"
-rollbar = "^1.0.0"
+rollbar = "0.16.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
