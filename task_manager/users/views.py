@@ -10,7 +10,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.models import Group, Permission
 from . import forms
-from task_manager.mixins import (
+from task_manager.users.mixins import (
     UsersModifyPermissionMixin,
     CustomLoginRequiredMixin,
 )

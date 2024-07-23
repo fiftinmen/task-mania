@@ -4,7 +4,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.list import ListView
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .models import Status
-from task_manager.mixins import CustomLoginRequiredMixin
+from task_manager.users.mixins import CustomLoginRequiredMixin
 
 # Create your views here.
 
