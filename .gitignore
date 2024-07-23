@@ -10,3 +10,4 @@ __pycache__
 graph_models.html
 description.txt
 test_output.html
+task_manager.sqlite3
