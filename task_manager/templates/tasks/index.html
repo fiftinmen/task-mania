@@ -5,28 +5,12 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
-<a class="btn btn-primary mb-3" href={% url 'tasks_create'%}>
-    {% trans "Create" %}
+<h1 class="my-4">
+{% trans 'Statuses' %}
+</h1>
+<a class="btn btn-primary mb-3" href={% url 'taskss_create'%}>
+                    {% trans "Create" %}
 </a>
-    <div class="card mb-3">
-        <div class="card-body bg-light">
-            <form method="get" class="form-inline center">
-                    <div class='form-group mb-3'>
-                        {{ filter.form.status.as_field_group }}
-                    </div>
-                    <div class='form-group mb-3'>
-                        {{ filter.form.labels.as_field_group }}
-                    </div>
-                    <div class='form-group mb-3'>
-                        {{ filter.form.executor.as_field_group }}
-                    </div>
-                    <div class='form-group mb-3'>
-                        {{ filter.form.only_own_tasks.as_field_group }}
-                    </div>
-                    <input type="submit" />
-            </form>
-        </div>
-    </div>
 <div class="table-responsive">
     <table class="table table-primary">
         <tr class="border bottom">
@@ -47,20 +31,8 @@
                     {{ status.created_at }}
                 </td>
                 <td>
-                    {{ task.author }}
-                </td>
-                <td>
-                {% if task.executor %}
-                    {{ task.executor }} 
-                    {% else %} <em> {% trans 'Not assigned'%}</em>
-                {% endif %}
-                </td>
-                <td>
-                    {{ task.created_at }}
-                </td>
-                <td>
-                <div><a href="{% url 'tasks_update' pk=task.id %}">{% trans 'Update' %}</a></div>
-                <div><a href="{% url 'tasks_delete' pk=task.id %}">{% trans 'Delete' %}</a></div>
+                <div><a href="{% url 'statuses_update' pk=status.id %}">Изменить</a></div>
+                <div><a href="{% url 'statuses_delete' pk=status.id %}">Удалить</a></div>
                 </td>
             </tr>
         {% endfor %}

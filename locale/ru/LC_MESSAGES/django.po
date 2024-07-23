@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-23 18:48+0300\n"
+"POT-Creation-Date: 2024-06-24 12:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,313 +16,31 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\task_manager\labels\views.py:20
-#: .\task_manager\templates\navigation.html:26
-#: .\task_manager\templates\tasks\detail.html:36
-msgid "Labels"
-msgstr "Метки"
-
-#: .\task_manager\labels\views.py:34
-msgid "Label_creation_success"
-msgstr "Метка успешно создана"
-
-#: .\task_manager\labels\views.py:48
-msgid "Label_update_success"
-msgstr "Метка успешно обновлена"
-
-#: .\task_manager\labels\views.py:60
-msgid "Label_deletion_success"
-msgstr "Метка успешно удалена"
-
-#: .\task_manager\labels\views.py:64 .\task_manager\statuses\views.py:52
-msgid "Can't_delete_status_in_use"
-msgstr "Невозможно удалить используемый статус"
-
-#: .\task_manager\settings.py:158
-msgid "Russian"
-msgstr "Русский"
-
-#: .\task_manager\settings.py:159
-msgid "English"
-msgstr "Английский"
-
-#: .\task_manager\statuses\views.py:19
-#: .\task_manager\templates\navigation.html:20
-msgid "Statuses"
-msgstr "Статусы"
-
-#: .\task_manager\statuses\views.py:28
-msgid "Status_creation_success"
-msgstr "Статус успешно создан"
-
-#: .\task_manager\statuses\views.py:38
-msgid "Status_update_success"
-msgstr "Статус успешно обновлен"
-
-#: .\task_manager\statuses\views.py:48
-msgid "Status_deletion_success"
-msgstr "Статус успешно удален"
-
-#: .\task_manager\tasks\filters.py:8
-msgid "Label"
-msgstr "Метка"
-
-#: .\task_manager\tasks\filters.py:10
-msgid "Only own tasks"
-msgstr "Только свои задачи"
-
-#: .\task_manager\tasks\views.py:29 .\task_manager\templates\navigation.html:23
-msgid "Tasks"
-msgstr "Задачи"
-
-#: .\task_manager\tasks\views.py:43
-msgid "Task_creation_success"
-msgstr "Задача успешно создана"
-
-#: .\task_manager\tasks\views.py:57
-msgid "Task_update_success"
-msgstr "Задача успешно обновлена"
-
-#: .\task_manager\tasks\views.py:69
-msgid "Task_deletion_success"
-msgstr "Задача успешно удалена"
-
-#: .\task_manager\templates\footer.html:11
-#: .\task_manager\templates\layout.html:11
-#: .\task_manager\templates\navigation.html:13
-msgid "SiteTitle"
-msgstr "Менеджер задач"
-
-#: .\task_manager\templates\index.html:11
+#: task_manager/templates/index.html:11
 msgid "Greeting"
 msgstr "Привет!"
 
-#: .\task_manager\templates\labels\create.html:17
-#: .\task_manager\templates\labels\index.html:9
-#: .\task_manager\templates\statuses\create.html:17
-#: .\task_manager\templates\statuses\index.html:9
-#: .\task_manager\templates\tasks\create.html:17
-#: .\task_manager\templates\tasks\index.html:9
-msgid "Create"
-msgstr "Создать"
+#: task_manager/templates/layout.html:13 task_manager/templates/layout.html:32
+#: task_manager/templates/navigation.html:10
+msgid "SiteTitle"
+msgstr "Менеджер задач"
 
-#: .\task_manager\templates\labels\delete.html:13
-#: .\task_manager\templates\statuses\delete.html:13
-#: .\task_manager\templates\tasks\delete.html:13
-msgid "Confirm_delete_item"
-msgstr "Подтвердите удаление"
-
-#: .\task_manager\templates\labels\delete.html:18
-#: .\task_manager\templates\labels\index.html:32
-#: .\task_manager\templates\statuses\delete.html:18
-#: .\task_manager\templates\statuses\index.html:32
-#: .\task_manager\templates\tasks\delete.html:18
-#: .\task_manager\templates\tasks\detail.html:44
-#: .\task_manager\templates\tasks\index.html:66
-#: .\task_manager\templates\users\delete.html:18
-#: .\task_manager\templates\users\index.html:33
-msgid "Delete"
-msgstr "Удалить"
-
-#: .\task_manager\templates\labels\index.html:14
-#: .\task_manager\templates\statuses\index.html:14
-#: .\task_manager\templates\tasks\index.html:33
-msgid "ID"
-msgstr "ID"
-
-#: .\task_manager\templates\labels\index.html:15
-#: .\task_manager\templates\statuses\index.html:15
-#: .\task_manager\templates\tasks\detail.html:24
-#: .\task_manager\templates\tasks\index.html:34
-msgid "Name"
-msgstr "Имя"
-
-#: .\task_manager\templates\labels\index.html:16
-#: .\task_manager\templates\statuses\index.html:16
-#: .\task_manager\templates\tasks\index.html:38
-msgid "Date of creation"
-msgstr "Дата создания"
-
-#: .\task_manager\templates\labels\index.html:17
-#: .\task_manager\templates\statuses\index.html:17
-#: .\task_manager\templates\tasks\index.html:39
-#: .\task_manager\templates\users\index.html:15
-msgid "Actions"
-msgstr "Действия"
-
-#: .\task_manager\templates\labels\index.html:31
-#: .\task_manager\templates\labels\update.html:18
-#: .\task_manager\templates\statuses\index.html:31
-#: .\task_manager\templates\statuses\update.html:18
-#: .\task_manager\templates\tasks\detail.html:45
-#: .\task_manager\templates\tasks\index.html:65
-#: .\task_manager\templates\tasks\update.html:18
-#: .\task_manager\templates\users\index.html:32
-#: .\task_manager\templates\users\update.html:18
-msgid "Update"
-msgstr "Обновить"
-
-#: .\task_manager\templates\layout.html:13
+#: task_manager/templates/layout.html:15
 msgid "SiteDescription"
 msgstr "Простой менеджер задач"
 
-#: .\task_manager\templates\navigation.html:16 .\task_manager\users\views.py:19
+#: task_manager/templates/navigation.html:12
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\task_manager\templates\navigation.html:31
+#: task_manager/templates/navigation.html:13
 msgid "Login"
 msgstr "Вход"
 
-#: .\task_manager\templates\navigation.html:34
+#: task_manager/templates/navigation.html:14
 msgid "Registration"
 msgstr "Регистрация"
-
-#: .\task_manager\templates\navigation.html:44
-#, python-format
-msgid "Hello, %(username)s"
-msgstr "Привет, %(username)s"
-
-#: .\task_manager\templates\navigation.html:46
-msgid "Account"
-msgstr "Аккаунт"
-
-#: .\task_manager\templates\navigation.html:51 .\task_manager\users\views.py:84
-msgid "Logout"
-msgstr "Выход"
-
-#: .\task_manager\templates\pagination.html:8
-msgid "First"
-msgstr "Первая"
-
-#: .\task_manager\templates\pagination.html:9
-msgid "Back"
-msgstr "Назад"
-
-#: .\task_manager\templates\pagination.html:13
-msgid "Page"
-msgstr "Страница"
-
-#: .\task_manager\templates\pagination.html:13
-msgid "from"
-msgstr "из"
-
-#: .\task_manager\templates\pagination.html:17
-msgid "Forward"
-msgstr "Вперед"
-
-#: .\task_manager\templates\pagination.html:18
-msgid "Last"
-msgstr "Последняя"
-
-#: .\task_manager\templates\tasks\detail.html:13
-#: .\task_manager\templates\tasks\index.html:36
-msgid "Author"
-msgstr "Автор"
-
-#: .\task_manager\templates\tasks\detail.html:17
-#: .\task_manager\templates\tasks\index.html:37
-msgid "Executor"
-msgstr "Исполнитель"
-
-#: .\task_manager\templates\tasks\detail.html:20
-#: .\task_manager\templates\tasks\index.html:58
-msgid "Not assigned"
-msgstr "Не назначен"
-
-#: .\task_manager\templates\tasks\detail.html:28
-#: .\task_manager\templates\tasks\index.html:35
-msgid "Status"
-msgstr "Статус"
-
-#: .\task_manager\templates\tasks\detail.html:32
-msgid "Created_at"
-msgstr "Создан"
-
-#: .\task_manager\templates\tasks\detail.html:40
-msgid "Not specified"
-msgstr "Не указано"
-
-#: .\task_manager\templates\users\create.html:17
-#, fuzzy
-#| msgid "Registration"
-msgid "Register"
-msgstr "Регистрация"
-
-#: .\task_manager\templates\users\delete.html:13
-msgid "Confirm_delete"
-msgstr "Подтвердите удаление"
-
-#: .\task_manager\templates\users\index.html:11
-msgid "id"
-msgstr "ID"
-
-#: .\task_manager\templates\users\index.html:12
-#, fuzzy
-#| msgid "Users"
-msgid "Username"
-msgstr "Имя пользователя"
-
-#: .\task_manager\templates\users\index.html:13
-msgid "Fullname"
-msgstr "Полное имя"
-
-#: .\task_manager\templates\users\index.html:14
-#, fuzzy
-#| msgid "Registration"
-msgid "Date of registration"
-msgstr "Дата регистрации"
-
-#: .\task_manager\templates\users\login.html:17
-msgid "Submit"
-msgstr "Отправить"
-
-#: .\task_manager\users\forms.py:37
-msgid "The two password fields didn’t match."
-msgstr "Пароли не совпадают"
-
-#: .\task_manager\users\forms.py:40
-msgid "New password"
-msgstr "Новый пароль"
-
-#: .\task_manager\users\forms.py:46
-msgid "New password confirmation"
-msgstr "Подтверждение нового пароля"
-
-#: .\task_manager\users\mixins.py:26
-msgid "not_permitted"
-msgstr "Не разрешено"
-
-#: .\task_manager\users\mixins.py:65
-msgid "Not_permitted_to_modify_object"
-msgstr "Не разрешено изменять объект"
-
-#: .\task_manager\users\views.py:36
-msgid "Logged_in"
-msgstr "Вход выполнен"
-
-#: .\task_manager\users\views.py:40
-msgid "Already_logged_in"
-msgstr "Вы уже вошли в систему"
-
-#: .\task_manager\users\views.py:49
-#, fuzzy
-#| msgid "Registration"
-msgid "Registration_success"
-msgstr "Регистрация успешна"
-
-#: .\task_manager\users\views.py:53
-msgid "Not_enough_permissions"
-msgstr "Недостаточно прав"
-
-#: .\task_manager\users\views.py:66
-msgid "User_update_success"
-msgstr "Пользователь успешно обновлен"
-
-#: .\task_manager\users\views.py:76
-msgid "User_deletion_success"
-msgstr "Пользователь успешно удален"

@@ -14,7 +14,6 @@ class StatusesIndexView(CustomLoginRequiredMixin, ListView):
     pagination = 10
     template_name = "statuses/index.html"
     next_page = reverse_lazy("index")
-    extra_context = {"page_header": _("Statuses")}
 
 
 class StatusesCreateView(

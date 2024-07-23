@@ -20,7 +20,6 @@ class UsersIndexView(ListView):
     model = get_user_model()
     pagination = 10
     template_name = "users/index.html"
-    extra_context = {"page_header": _("Users")}
 
 
 class UsersDetailView(DetailView):

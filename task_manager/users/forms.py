@@ -9,29 +9,34 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 
+class UsersAccountForm(ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = [
+            "first_name",
+            "last_name",
+            "username",
+        ]
+
+
 class UsersRegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=150, required=True)
     last_name = forms.CharField(max_length=150, required=True)
 
-    class Meta(UserCreationForm):
+    class Meta(UserCreationForm.Meta, UsersAccountForm.Meta):
         model = get_user_model()
         fields = [
-            "username",
             "first_name",
             "last_name",
+            "username",
         ]
 
 
 class UsersUpdateForm(UserChangeForm):
     password = None
 
-    class Meta:
+    class Meta(UsersAccountForm.Meta):
         model = get_user_model()
-        fields = [
-            "username",
-            "first_name",
-            "last_name",
-        ]
 
     error_messages = {
         "password_mismatch": _("The two password fields didn’t match."),

@@ -10,15 +10,7 @@ urls_data = (
 )
 default_task_fixture = {"id": 1, "name": "Default_Task"}
 default_status_fixture = {"id": 1, "name": "Default_Status"}
-valid_statuses = (
-    # id 1 is reserved for default status
-    {"pk": 2, "name": "Status"},
-    {"pk": 3, "name": "On delay"},
-    {"pk": 4, "name": "Stopped"},
-    {"pk": 5, "name": "In work"},
-    {"pk": 6, "name": "In test"},
-    {"pk": 7, "name": "Preparing"},
-)
+
 # default task must be created in TestsStatuses.setUp;
 valid_tasks = (
     # id 1 is reserved for default task
