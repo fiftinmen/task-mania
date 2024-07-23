@@ -33,6 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 SECRET_KEY = os.environ["SECRET_KEY"]
 DATABASE_URL = os.environ.get("DATABASE_URL")
+ROLLBAR_TOKEN = os.environ.get("ROLLBAR_TOKEN")
 DEBUG = DATABASE_URL is None
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -76,7 +77,7 @@ MIDDLEWARE = [
 ]
 
 ROLLBAR = {
-    "access_token": "eab164d4a80944f3844c0966ecf574f3",
+    "access_token": ROLLBAR_TOKEN,
     "environment": "development" if DEBUG else "production",
     "code_version": "1.0",
     "root": BASE_DIR,
