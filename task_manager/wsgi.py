@@ -16,5 +16,4 @@ from whitenoise import WhiteNoise
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "task_manager.settings")
 
 application = get_wsgi_application()
-application = WhiteNoise(application, root=settings.BASE_DIR / "staticfiles")
-application.add_files("/path/to/more/static/files", prefix="more-files/")
+application = WhiteNoise(application, root=settings.STATIC_ROOT)
