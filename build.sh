@@ -4,8 +4,6 @@ export $PATH="/root/.local/bin:$PATH"
 apt update -y
 apt install pipx -y
 pipx ensurepath
-pipx ensurepath --prepend
-pipx ensurepath --global
 pipx install poetry
 pipx run poetry install
 make make-n-migrate

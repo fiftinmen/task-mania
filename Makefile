@@ -3,7 +3,7 @@ MANAGE := pipx run poetry run python manage.py
 PORT ?= 8000
 .PHONY: start
 start:
-	poetry run gunicorn task_manager.wsgi
+	pipx run poetry run gunicorn task_manager.wsgi
 
 
 .PHONY: build
