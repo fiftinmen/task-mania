@@ -11,7 +11,7 @@ build:
 	./build.sh
 
 
-.PHONY: start
+.PHONY: dev
 dev:
 	pipx run poetry run python manage.py runserver
 

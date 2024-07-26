@@ -7,6 +7,6 @@ pipx ensurepath
 pipx ensurepath --prepend
 pipx ensurepath --global
 pipx install poetry
-make install
+pipx run poetry install
 make make-n-migrate
 pipx run poetry run python manage.py collectstatic --noinput
