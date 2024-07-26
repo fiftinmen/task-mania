@@ -1,4 +1,4 @@
-MANAGE := poetry run python manage.py
+MANAGE := pipx run poetry run python manage.py
 
 PORT ?= 8000
 .PHONY: start

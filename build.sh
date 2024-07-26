@@ -9,4 +9,4 @@ pipx ensurepath --global
 pipx install poetry
 make install
 make make-n-migrate
-poetry run python manage.py collectstatic --noinput
+pipx run poetry run python manage.py collectstatic --noinput
