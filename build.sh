@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-sudo apt update
-sudo apt install pipx
+apt update
+apt install pipx
 pipx install poetry
 make install
 make make-n-migrate
