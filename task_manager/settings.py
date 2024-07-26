@@ -42,6 +42,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "webserver",
     "python-project-52-6vxn.onrender.com",
+    "fiftinmen-python-project-52-e8b1.twc1.net",
 ]
 
 # Application definition
