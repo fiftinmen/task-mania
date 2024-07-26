@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 export DEBIAN_FRONTEND=noninteractive
+export $PATH="/root/.local/bin":$PATH
 apt update -y
 apt install pipx -y
 pipx ensurepath --prepend
