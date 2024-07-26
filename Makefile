@@ -13,7 +13,7 @@ build:
 
 .PHONY: start
 dev:
-	poetry run python manage.py runserver
+	pipx run poetry run python manage.py runserver
 
 .PHONY: test
 test:
@@ -24,7 +24,7 @@ setup: db-clean install migrate
 
 .PHONY: install
 install:
-	@poetry install
+	pipx run poetry install
 
 .PHONY: db-clean
 db-clean:
