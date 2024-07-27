@@ -198,6 +198,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CSRF_COOKIE_SECURE = True
 
-CSRF_TRUSTED_ORIGINS = ["https://fiftinmen-task-mania-bdd4.twc1.net/"]
+CSRF_TRUSTED_ORIGINS = ["https://fiftinmen-task-mania-bdd4.twc1.net"]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
