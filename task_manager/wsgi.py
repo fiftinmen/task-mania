@@ -14,13 +14,13 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "task_manager.settings")
 
-application = get_wsgi_application()
-application = WhiteNoise(application, root=settings.STATIC_ROOT)
+django_application = get_wsgi_application()
+django_application = WhiteNoise(django_application, root=settings.STATIC_ROOT)
 
 
 def https_app(environ, start_response):
     environ["wsgi.url_scheme"] = "https"
-    return application(environ, start_response)
+    return django_application(environ, start_response)
 
 
 application = https_app
