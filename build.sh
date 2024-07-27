@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export DEBIAN_FRONTEND=noninteractive
 apt update -y
-apt install -y python3-pip python3-venv python3-wheel
+apt install pipx -y
 pipx ensurepath
 export PATH="/root/.local/bin:$PATH"    
 pipx install poetry
