@@ -5,6 +5,7 @@ apt update -y
 apt install pipx -y
 pipx ensurepath
 pipx install poetry
-pipx run poetry install
+make install
 make make-n-migrate
+make collectstatic
 pipx run poetry run python manage.py collectstatic --noinput

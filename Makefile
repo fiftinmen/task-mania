@@ -1,9 +1,9 @@
-MANAGE := pipx run poetry run python manage.py
+MANAGE := /root/.local/bin/poetry run python manage.py
 
 PORT ?= 8000
 .PHONY: start
 start:
-	pipx run poetry run gunicorn task_manager.wsgi
+	/root/.local/bin/poetry run gunicorn task_manager.wsgi
 
 
 .PHONY: build
@@ -13,18 +13,18 @@ build:
 
 .PHONY: dev
 dev:
-	pipx run poetry run python manage.py runserver
+	/root/.local/bin/poetry run python manage.py runserver
 
 .PHONY: test
 test:
-	@poetry run python manage.py test
+	/root/.local/bin/poetry run python manage.py test
 
 .PHONY: setup
 setup: db-clean install migrate
 
 .PHONY: install
 install:
-	pipx run poetry install
+	/root/.local/bin/poetry install
 
 .PHONY: db-clean
 db-clean:
@@ -45,4 +45,4 @@ shell:
 
 .PHONY: lint
 lint:
-	@poetry run flake8 python_django_orm_blog
+	/root/.local/bin/poetry run flake8 task_manager
