@@ -35,7 +35,7 @@ load_dotenv()
 SECRET_KEY = os.environ["SECRET_KEY"]
 DATABASE_URL = os.environ.get("DATABASE_URL")
 ROLLBAR_TOKEN = os.environ.get("ROLLBAR_TOKEN")
-DEBUG = DATABASE_URL is None
+DEBUG = False
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = [
@@ -197,5 +197,7 @@ LOGOUT_REDIRECT_URL = reverse_lazy("index")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CSRF_COOKIE_SECURE = True
+
+CSRF_TRUSTED_ORIGINS = ["https://fiftinmen-task-mania-bdd4.twc1.net/"]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
