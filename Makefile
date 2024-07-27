@@ -46,3 +46,6 @@ shell:
 .PHONY: lint
 lint:
 	/root/.local/bin/poetry run flake8 task_manager
+
+collectstatic:
+	@$(MANAGE) collectstatic --noinput
